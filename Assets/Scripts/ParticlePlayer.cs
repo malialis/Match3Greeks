@@ -12,7 +12,6 @@ public class ParticlePlayer : MonoBehaviour
     void Start()
     {
         allParticles = GetComponentsInChildren<ParticleSystem>();
-
         Destroy(gameObject, lifeTime);
     }
 

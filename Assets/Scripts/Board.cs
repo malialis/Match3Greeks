@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
+    // Board Setup on startUp
     public int width;
     public int height;
     public int borderSize;
@@ -13,10 +14,12 @@ public class Board : MonoBehaviour
     public float swapTime = 0.5f;
     public float fillMovetime = 0.5f;
 
+    //Tile Prefabs sources
     public GameObject tileNormalPrefab;
     public GameObject tileObstaclePrefab;
     public GameObject[] gamePiecePrefabs;
 
+    //Bomb Prefabs sources
     public GameObject adjacentBombPrefab;
     public GameObject columnBombPrefab;
     public GameObject rowBombPrefab;
