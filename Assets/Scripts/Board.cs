@@ -67,7 +67,12 @@ public class Board : MonoBehaviour
     {
         m_allTiles = new Tile[width, height];
         m_allGamePieces = new GamePiece[width, height];
+        //SetupBoard();
+        m_particleManager = GameObject.FindWithTag("ParticleManager").GetComponent<ParticleManager>();
+    }
 
+    public void SetupBoard()
+    {
         SetupTiles();
         SetupGamePieces();
         SetupCamera();
@@ -76,7 +81,6 @@ public class Board : MonoBehaviour
         currentCollectibleCount = startingCollectibles.Count;
 
         FillBoard(fillYOffset, fillMovetime);
-        m_particleManager = GameObject.FindWithTag("ParticleManager").GetComponent<ParticleManager>();
     }
 
     // Update is called once per frame

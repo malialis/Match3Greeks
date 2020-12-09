@@ -1,11 +1,13 @@
 ﻿<Properties StartupConfiguration="{1C986491-80FC-F4E5-D870-2E81446F9462}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GamePiece.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameManager.cs">
     <Files>
       <File FileName="Assets/Scripts/Tile.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Board.cs" Line="687" Column="44" />
+      <File FileName="Assets/Scripts/Board.cs" Line="70" Column="11" />
       <File FileName="Assets/Scripts/Singleton.cs" Line="31" Column="37" />
       <File FileName="Assets/Scripts/ScoreManager.cs" Line="18" Column="41" />
-      <File FileName="Assets/Scripts/GamePiece.cs" Line="42" Column="21" />
+      <File FileName="Assets/Scripts/GamePiece.cs" Line="156" Column="75" />
+      <File FileName="Assets/Scripts/ScreenFader.cs" Line="35" Column="1" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="53" Column="42" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -13,7 +15,7 @@
           <Node name="Match3Greeks" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="GamePiece.cs" selected="True" />
+                <Node name="GameManager.cs" selected="True" />
               </Node>
             </Node>
           </Node>
