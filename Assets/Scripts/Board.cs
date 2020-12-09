@@ -25,6 +25,7 @@ public class Board : MonoBehaviour
     public GameObject rowBombPrefab;
     public GameObject colorBombPrefab;
 
+    // collectable stuff
     public int maxCollectibles = 3;
     public int currentCollectibleCount = 0;
     public GameObject[] collectiblePrefabs;
@@ -1120,9 +1121,9 @@ public class Board : MonoBehaviour
 
     #endregion
 
-    #region collectibleStuff
+#region collectibleStuff
 
-    List<GamePiece> FindCollectiblesAt(int row, bool clearedAtBottom = false)
+    List<GamePiece> FindCollectiblesAt(int row, bool clearedAtBottomOnly = false)
     {
         List<GamePiece> foundCollectibles = new List<GamePiece>();
 
@@ -1134,7 +1135,7 @@ public class Board : MonoBehaviour
 
                 if (collectibleComponent != null)
                 {
-                    if (!clearedAtBottom || (clearedAtBottom && collectibleComponent.clearedAtBottom))
+                    if (!clearedAtBottomOnly || (clearedAtBottomOnly && collectibleComponent.clearedAtBottom))
                     {
                         foundCollectibles.Add(m_allGamePieces[i, row]);
                     }
