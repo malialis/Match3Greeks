@@ -44,7 +44,7 @@ public class GamePiece : MonoBehaviour
 
     public MatchValue matchValue;
 
-    
+    public int scoreValue = 20;
 
 
 
@@ -146,6 +146,14 @@ public class GamePiece : MonoBehaviour
                 rendererToChange.color = rendererToMatch.color;
             }
             matchValue = pieceToMatch.matchValue;
+        }
+    }
+
+    public void ScorePoints()
+    {
+        if(ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.AddScore(scoreValue);
         }
     }
 

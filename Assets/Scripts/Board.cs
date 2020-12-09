@@ -714,6 +714,7 @@ public class Board : MonoBehaviour
             if(piece != null)
             {
                 ClearPieceAt(piece.xIndex, piece.yIndex);
+                piece.ScorePoints();
 
                 if (m_particleManager != null)
                 {
