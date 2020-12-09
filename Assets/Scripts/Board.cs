@@ -33,6 +33,9 @@ public class Board : MonoBehaviour
     [Range(0, 1)]
     public float chanceForCollectible = 0.1f;
 
+    //Scores
+    private int m_scoreMultiplier = 0;
+
     private GameObject m_clickedTileBomb;
     private GameObject m_targetTileBomb;
 
@@ -714,7 +717,14 @@ public class Board : MonoBehaviour
             if(piece != null)
             {
                 ClearPieceAt(piece.xIndex, piece.yIndex);
-                piece.ScorePoints();
+
+                int bonus = 0;
+
+                if(gamePieces.Count >= 4)
+                {
+                    bonus = 20;
+                }
+                piece.ScorePoints(m_scoreMultiplier, bonus);
 
                 if (m_particleManager != null)
                 {
@@ -832,8 +842,12 @@ public class Board : MonoBehaviour
         m_playerInutEnabled = false;
         List<GamePiece> matches = gamePieces;
 
+        m_scoreMultiplier = 0;
+
         do
         {
+            m_scoreMultiplier++;
+
             //clear and collapse
             yield return StartCoroutine(ClearAndCollapseRoutine(matches));
             yield return null;
@@ -916,6 +930,8 @@ public class Board : MonoBehaviour
             }
             else
             {
+                m_scoreMultiplier++;
+
                 yield return StartCoroutine(ClearAndCollapseRoutine(matches));
             }
         }

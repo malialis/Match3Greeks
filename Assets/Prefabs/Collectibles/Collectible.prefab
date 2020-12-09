@@ -100,6 +100,7 @@ MonoBehaviour:
   yIndex: 0
   interpolation: 4
   matchValue: 14
+  scoreValue: 1000
   clearedByBomb: 0
   clearedAtBottom: 1
 --- !u!1001 &7224591780580332933
