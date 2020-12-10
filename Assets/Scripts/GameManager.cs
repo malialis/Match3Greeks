@@ -8,8 +8,11 @@ public class GameManager : Singleton<GameManager>
 {
     public int movesLeft = 30;
     public int scoreGoal = 10000;
+
     public ScreenFader screenFader;
+
     public Text levelNameText;
+    public Text movesLeftText;
 
     Board m_board;
 
@@ -27,6 +30,9 @@ public class GameManager : Singleton<GameManager>
         {
             levelNameText.text = scene.name;
         }
+
+        UpdateMoves();
+
         StartCoroutine("ExecuteGameLoop");
     }
 
@@ -48,6 +54,7 @@ public class GameManager : Singleton<GameManager>
         }
        if(screenFader != null)
         {
+            //screenFader.gameObject.SetActive(true);
             screenFader.FadeOff();
         }
         yield return new WaitForSeconds(1f);
@@ -61,12 +68,22 @@ public class GameManager : Singleton<GameManager>
     {
         while (!m_isGameOver)
         {
+            if(movesLeft == 0)
+            {
+                m_isGameOver = true;
+                m_isWinner = false;
+            }
             yield return null;
         }
     }
 
     IEnumerator EndGameRoutine()
     {
+        if(screenFader != null)
+        {
+            screenFader.FadeOn();
+        }
+
         if (m_isWinner)
         {
             Debug.Log("You Win!!");
@@ -76,6 +93,14 @@ public class GameManager : Singleton<GameManager>
             Debug.Log("You Lose!");
         }
         yield return null;
+    }
+
+    public void UpdateMoves()
+    {
+        if (movesLeftText != null)
+        {
+            movesLeftText.text = movesLeft.ToString();
+        }
     }
 
 
