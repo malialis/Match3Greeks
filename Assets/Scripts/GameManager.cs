@@ -20,6 +20,12 @@ public class GameManager : Singleton<GameManager>
     bool m_isGameOver = false;
     bool m_isWinner = false;
 
+    public MessageWindow messageWindow;
+
+    public Sprite loseIcon;
+    public Sprite winIcon;
+    public Sprite goalIcon;
+
     // Start is called before the first frame update
     void Start()
     {
