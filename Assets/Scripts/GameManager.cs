@@ -55,8 +55,8 @@ public class GameManager : Singleton<GameManager>
        while (!m_isReadyToBegin)
         {
             yield return null;
-            yield return new WaitForSeconds(2f);
-            m_isReadyToBegin = true;
+           // yield return new WaitForSeconds(2f);
+            // m_isReadyToBegin = true;
         }
        if(screenFader != null)
         {
