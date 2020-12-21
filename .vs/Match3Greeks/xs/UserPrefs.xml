@@ -1,13 +1,15 @@
 ﻿<Properties StartupConfiguration="{1C986491-80FC-F4E5-D870-2E81446F9462}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/RectXformMover.cs">
     <Files>
       <File FileName="Assets/Scripts/Tile.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Board.cs" Line="449" Column="60" />
       <File FileName="Assets/Scripts/Singleton.cs" />
       <File FileName="Assets/Scripts/ScoreManager.cs" />
       <File FileName="Assets/Scripts/GamePiece.cs" />
-      <File FileName="Assets/Scripts/ScreenFader.cs" Line="26" Column="6" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="86" Column="1" />
+      <File FileName="Assets/Scripts/ScreenFader.cs" />
+      <File FileName="Assets/Scripts/GameManager.cs" />
+      <File FileName="Assets/Scripts/Collectible.cs" />
+      <File FileName="Assets/Scripts/RectXformMover.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -15,7 +17,7 @@
           <Node name="Match3Greeks" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="GameManager.cs" selected="True" />
+                <Node name="RectXformMover.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -25,7 +27,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="a7012bef-4316-4f37-8771-596a760c7a08" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="d56b3f98-2978-41dd-a61e-45eedcfd84b6" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
