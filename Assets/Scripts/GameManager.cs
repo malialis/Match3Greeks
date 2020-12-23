@@ -81,6 +81,14 @@ public class GameManager : Singleton<GameManager>
     {
         while (!m_isGameOver)
         {
+            if(ScoreManager.Instance != null)
+            {
+                if(ScoreManager.Instance.CurrentScore >= scoreGoal)
+                {
+                    m_isGameOver = true;
+                    m_isWinner = true;
+                }
+            }
             if(movesLeft == 0)
             {
                 m_isGameOver = true;
@@ -94,17 +102,14 @@ public class GameManager : Singleton<GameManager>
     {
         m_isReadyToReload = false;
 
-        if(screenFader != null)
-        {
-            screenFader.FadeOn();
-        }
+        
 
         if (m_isWinner)
         {
             if (messageWindow != null)
             {
                 messageWindow.GetComponent<RectXformMover>().MoveOn();
-                messageWindow.ShowMessage(winIcon, "You Won\n" + ScoreManager.Instance.scoreText.ToString(), "Continue");
+                messageWindow.ShowMessage(winIcon, "You Won\n" + ScoreManager.Instance.CurrentScore.ToString(), "Continue");
             }
         }
         else
@@ -114,6 +119,13 @@ public class GameManager : Singleton<GameManager>
                 messageWindow.GetComponent<RectXformMover>().MoveOn();
                 messageWindow.ShowMessage(loseIcon, "You Lost\n", "Try Again");
             }
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        if (screenFader != null)
+        {
+            screenFader.FadeOn();
         }
 
         while (!m_isReadyToReload)

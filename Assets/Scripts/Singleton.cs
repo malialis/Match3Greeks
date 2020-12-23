@@ -29,7 +29,7 @@ public class Singleton <T> : MonoBehaviour where T: MonoBehaviour
         {
             m_instance = this as T;
             transform.parent = null;
-            DontDestroyOnLoad(this.gameObject);
+           // DontDestroyOnLoad(this.gameObject);
         }
         else
         {
