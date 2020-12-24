@@ -101,6 +101,7 @@ MonoBehaviour:
   interpolation: 4
   matchValue: 14
   scoreValue: 1000
+  clearSound: {fileID: 8300000, guid: 56e813bd88354448fb9f0a52536449a1, type: 3}
   clearedByBomb: 0
   clearedAtBottom: 1
 --- !u!1001 &7224591780580332933

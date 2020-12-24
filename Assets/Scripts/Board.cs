@@ -440,6 +440,11 @@ public class Board : MonoBehaviour
                 {
                     clickedPiece.Move(clickedTile.xIndex, clickedTile.yIndex, swapTime);
                     targetPiece.Move(targetTile.xIndex, targetTile.yIndex, swapTime);
+                    //error swap sound
+                    if (SoundManager.Instance != null)
+                    {
+                        SoundManager.Instance.PlayErrorSound();
+                    }
                 }
                 else
                 {
@@ -941,6 +946,11 @@ public class Board : MonoBehaviour
             else
             {
                 m_scoreMultiplier++;
+
+                if(SoundManager.Instance != null)
+                {
+                    SoundManager.Instance.PlayBonusSound();
+                }
 
                 yield return StartCoroutine(ClearAndCollapseRoutine(matches));
             }

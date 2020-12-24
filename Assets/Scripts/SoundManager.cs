@@ -9,6 +9,7 @@ public class SoundManager : Singleton<SoundManager>
     public AudioClip[] winClips;
     public AudioClip[] loseClips;
     public AudioClip[] bonusClips;
+    public AudioClip[] errorClips;
 
     [Range(0, 1)]
     public float musicVolume = 0.5f;
@@ -25,7 +26,7 @@ public class SoundManager : Singleton<SoundManager>
     // Start is called before the first frame update
     void Start()
     {
-        
+        PlayRandomMusic();
     }
 
 
@@ -82,7 +83,7 @@ public class SoundManager : Singleton<SoundManager>
 
     public void PlayLoseSound()
     {
-        PlayRandomClip(loseClips, Vector3.zero, sfxVolume);
+        PlayRandomClip(loseClips, Vector3.zero, sfxVolume * 0.6f);
     }
 
     public void PlayBonusSound()
@@ -90,6 +91,10 @@ public class SoundManager : Singleton<SoundManager>
         PlayRandomClip(bonusClips, Vector3.zero, sfxVolume);
     }
 
+    public void PlayErrorSound()
+    {
+        PlayRandomClip(errorClips, Vector3.zero, sfxVolume);
+    }
 
 
 

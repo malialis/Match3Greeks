@@ -46,6 +46,8 @@ public class GamePiece : MonoBehaviour
 
     public int scoreValue = 20;
 
+    public AudioClip clearSound;
+
 
 
     // Start is called before the first frame update
@@ -154,6 +156,11 @@ public class GamePiece : MonoBehaviour
         if(ScoreManager.Instance != null)
         {
             ScoreManager.Instance.AddScore(scoreValue * mulitplier + bonus);
+        }
+
+        if(SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayClipAtPoint(clearSound, Vector3.zero, SoundManager.Instance.sfxVolume);
         }
     }
 
