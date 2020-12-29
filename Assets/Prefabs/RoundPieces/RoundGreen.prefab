@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 4766216283358082}
   - component: {fileID: 212614088811689354}
   - component: {fileID: 114401465035123518}
+  - component: {fileID: -5016007576822811783}
+  - component: {fileID: 3949448557608128923}
   m_Layer: 0
   m_Name: RoundGreen
   m_TagString: Untagged
@@ -101,3 +103,32 @@ MonoBehaviour:
   matchValue: 7
   scoreValue: 20
   clearSound: {fileID: 8300000, guid: 6dce900c6b57748dbb2ee112588b2bd9, type: 3}
+--- !u!58 &-5016007576822811783
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1282329895864240}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.42666668
+--- !u!114 &3949448557608128923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1282329895864240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c1380c4a07174c4182a0981fe1b069e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swipeAngle: 0
