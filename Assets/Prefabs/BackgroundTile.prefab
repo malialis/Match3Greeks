@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 5945199475260608546}
   - component: {fileID: -7248114536249494951}
   - component: {fileID: 6008468362980301757}
+  - component: {fileID: -5092636549025670411}
   m_Layer: 0
-  m_Name: TileNormal
+  m_Name: BackgroundTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -117,7 +118,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5997042428416168903}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc5fe2601616a40c9a7270f06d6bdb11, type: 3}
   m_Name: 
@@ -128,3 +129,23 @@ MonoBehaviour:
   breakableSprites: []
   normalColor: {r: 1, g: 1, b: 1, a: 0}
   tileType: 0
+--- !u!114 &-5092636549025670411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5997042428416168903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0a684a91ecf645ab90ca3df3c05293b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dots:
+  - {fileID: 1836425604369276, guid: 7471f6d24260942c499dd3fbbeccadc6, type: 3}
+  - {fileID: 1282329895864240, guid: 16eff60049fa742e09c4e037182057a2, type: 3}
+  - {fileID: 1372902284518312, guid: ddd7ecb364d034ad295c2ea9c8df1999, type: 3}
+  - {fileID: 1161606897531048, guid: 805c5ac8742f1457bb6137a92eef3032, type: 3}
+  - {fileID: 1664362004353522, guid: ded3823fda2b64d07a29783e0ce9acc9, type: 3}
+  - {fileID: 1616169278628932, guid: d8220af17d71d4a7b91d94fdb37f90e0, type: 3}
+  - {fileID: 1764584299026588, guid: d25f2e53e91ce49bd99d368bec39987a, type: 3}

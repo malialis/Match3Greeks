@@ -1,13 +1,8 @@
 ﻿<Properties StartupConfiguration="{1C986491-80FC-F4E5-D870-2E81446F9462}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Collectible.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/BackgroundTile.cs">
     <Files>
-      <File FileName="Assets/Scripts/Board.cs" Line="1113" Column="40" />
-      <File FileName="Assets/Scripts/ScoreManager.cs" />
-      <File FileName="Assets/Scripts/GamePiece.cs" />
-      <File FileName="Assets/Scripts/GameManager.cs" />
-      <File FileName="Assets/Scripts/Collectible.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/SoundManager.cs" />
-      <File FileName="Assets/Scripts/Tile.cs" />
+      <File FileName="Assets/Scripts/TaftBoard.cs" Line="38" Column="98" />
+      <File FileName="Assets/Scripts/BackgroundTile.cs" Line="19" Column="22" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -15,7 +10,7 @@
           <Node name="Match3Greeks" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="Collectible.cs" selected="True" />
+                <Node name="BackgroundTile.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -25,7 +20,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="40fbffc9-7c7d-4be3-badb-2d319e8f7a1a" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="de9683fd-ad58-4e29-bed0-d88e85986d3e" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
