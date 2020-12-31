@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4571746447322223472}
   m_Layer: 0
   m_Name: RoundRed
-  m_TagString: Untagged
+  m_TagString: Round Red Dot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -132,3 +132,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   swipeAngle: 0
+  column: 0
+  row: 0
+  isMatched: 0
+  targetX: 0
+  targetY: 0

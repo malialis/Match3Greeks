@@ -5,6 +5,14 @@ TagManager:
   serializedVersion: 2
   tags:
   - ParticleManager
+  - Round Green Dot
+  - Round Blue Dot
+  - Round Orange Dot
+  - Round Purple Dot
+  - Round Red Dot
+  - Round Teal Dot
+  - Round Yellow Dot
+  - Round Wild Dot
   layers:
   - Default
   - TransparentFX
