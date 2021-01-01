@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class FindMatches : MonoBehaviour
@@ -14,6 +15,12 @@ public class FindMatches : MonoBehaviour
     {
         board = FindObjectOfType<TaftBoard>();
     }
+
+    public void FindAllMatches()
+    {
+        StartCoroutine(FindAllMatchesCoroutine());
+    }
+
 
 
     private IEnumerator FindAllMatchesCoroutine()
@@ -34,7 +41,59 @@ public class FindMatches : MonoBehaviour
                         {
                             if(leftDot.tag == currentDot.tag && rightDot.tag == currentDot.tag)
                             {
+                                if(currentDot.GetComponent<Dots>().isRowBomb || leftDot.GetComponent<Dots>().isRowBomb || rightDot.GetComponent<Dots>().isRowBomb)
+                                {
+                                    currentMatches.Union(GetRowPieces(j)); // adds row bomb
+                                }
 
+
+                                if (!currentMatches.Contains(leftDot))
+                                {
+                                    currentMatches.Add(leftDot);
+                                }
+                                if (!currentMatches.Contains(rightDot))
+                                {
+                                    currentMatches.Add(rightDot);
+                                }
+                                if (!currentMatches.Contains(currentDot))
+                                {
+                                    currentMatches.Add(currentDot);
+                                }
+                                leftDot.GetComponent<Dots>().isMatched = true;
+                                rightDot.GetComponent<Dots>().isMatched = true;
+                                currentDot.GetComponent<Dots>().isMatched = true;
+                            }
+                        }
+                    }
+
+                    if (j > 0 && j < board.height - 1)
+                    {
+                        GameObject upDot = board.allDots[i, j + 1];
+                        GameObject downDot = board.allDots[i, j - 1];
+                        if (upDot != null && downDot != null)
+                        {
+                            if (upDot.tag == currentDot.tag && downDot.tag == currentDot.tag)
+                            {
+                                if (currentDot.GetComponent<Dots>().isColumnBomb || upDot.GetComponent<Dots>().isColumnBomb || downDot.GetComponent<Dots>().isColumnBomb)
+                                {
+                                    currentMatches.Union(GetColumnPieces(i)); // adds column bomb
+                                }
+
+                                if (!currentMatches.Contains(upDot))
+                                {
+                                    currentMatches.Add(upDot);
+                                }
+                                if (!currentMatches.Contains(downDot))
+                                {
+                                    currentMatches.Add(downDot);
+                                }
+                                if (!currentMatches.Contains(currentDot))
+                                {
+                                    currentMatches.Add(currentDot);
+                                }
+                                upDot.GetComponent<Dots>().isMatched = true;
+                                downDot.GetComponent<Dots>().isMatched = true;
+                                currentDot.GetComponent<Dots>().isMatched = true;
                             }
                         }
                     }
@@ -42,6 +101,38 @@ public class FindMatches : MonoBehaviour
             }
         }
     }
+
+
+    private List<GameObject> GetColumnPieces(int column)
+    {
+        List<GameObject> dots = new List<GameObject>();
+        for(int i = 0; i < board.height; i++)
+        {
+            if(board.allDots[column, i] != null)
+            {
+                dots.Add(board.allDots[column, i]);
+                board.allDots[column, i].GetComponent<Dots>().isMatched = true;
+            }
+        }
+
+        return dots;
+    }
+
+    private List<GameObject> GetRowPieces(int row)
+    {
+        List<GameObject> dots = new List<GameObject>();
+        for (int i = 0; i < board.width; i++)
+        {
+            if (board.allDots[i, row] != null)
+            {
+                dots.Add(board.allDots[i, row]);
+                board.allDots[i, row].GetComponent<Dots>().isMatched = true;
+            }
+        }
+
+        return dots;
+    }
+
 
 
 

@@ -22,8 +22,11 @@ public class TaftBoard : MonoBehaviour
     public GameObject tilePrefab;
     public GameObject[] dots;
 
+    public GameObject destroyFX;
+
     private BackgroundTile[,] allTiles;
     public GameObject[,] allDots;
+    private FindMatches findMatches;
 
 
 
@@ -31,7 +34,8 @@ public class TaftBoard : MonoBehaviour
     void Start()
     {
         allTiles = new BackgroundTile[width, height]; // tells the board how big it is going to be, not filling it in but size
-        allDots = new GameObject[width, height]; 
+        allDots = new GameObject[width, height];
+        findMatches = FindObjectOfType<FindMatches>();
         SetUp();
     }
 
@@ -113,6 +117,9 @@ public class TaftBoard : MonoBehaviour
     {
         if(allDots[column, row].GetComponent<Dots>().isMatched)
         {
+            findMatches.currentMatches.Remove(allDots[column, row]);
+            GameObject particle = Instantiate(destroyFX, allDots[column, row].transform.position, Quaternion.identity);
+            Destroy(particle, 1f);
             Destroy(allDots[column, row]);
             allDots[column, row] = null;
         }

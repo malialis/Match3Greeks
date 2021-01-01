@@ -50,3 +50,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Dots
+    uniqueID: 716855069
+    locked: 0
+  - name: Bombs
+    uniqueID: 4082355287
+    locked: 0
