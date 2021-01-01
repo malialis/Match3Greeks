@@ -1,17 +1,18 @@
 ﻿<Properties StartupConfiguration="{1C986491-80FC-F4E5-D870-2E81446F9462}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/TaftBoard.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/FindMatches.cs">
     <Files>
-      <File FileName="Assets/Scripts/TaftBoard.cs" Line="22" Column="50" />
-      <File FileName="Assets/Scripts/BackgroundTile.cs" />
-      <File FileName="Assets/Scripts/SwipeController.cs" />
-      <File FileName="Assets/Scripts/Dots.cs" Line="170" Column="14" />
+      <File FileName="Assets/Scripts/TaftBoard.cs" Line="213" Column="39" />
+      <File FileName="Assets/Scripts/Dots.cs" Line="218" Column="40" />
+      <File FileName="Assets/Scripts/FindMatches.cs" Line="22" Column="6" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Match3Greeks" expanded="True">
-            <Node name="Assets" expanded="True" selected="True">
-              <Node name="Scripts" expanded="True" />
+            <Node name="Assets" expanded="True">
+              <Node name="Scripts" expanded="True">
+                <Node name="FindMatches.cs" selected="True" />
+              </Node>
             </Node>
           </Node>
         </State>
