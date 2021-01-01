@@ -41,6 +41,16 @@ public class TaftBoard : MonoBehaviour
                 backgroundTile.name = "( " + i + ", " + j + " )"; // naming it as its coordinates
 
                 int dotToUse = Random.Range(0, dots.Length);
+                int maxIterations = 0;
+
+                while (MatchesAt(i, j, dots[dotToUse]) && maxIterations < 100)
+                {
+                    dotToUse = Random.Range(0, dots.Length);
+                    maxIterations++;
+                    Debug.Log(maxIterations);
+                }
+
+                maxIterations = 0;
                 GameObject dot = Instantiate(dots[dotToUse], tempPosition, Quaternion.identity);
                 dot.transform.parent = this.transform; // parent the dot to the tile
                 dot.name = "( " + i + ", " + j + " )"; // naming it as its coordinates
@@ -49,6 +59,88 @@ public class TaftBoard : MonoBehaviour
             }
         }
     }
+
+
+    private bool MatchesAt(int column, int row, GameObject piece)
+    {
+        if(column > 1 && row > 1)
+        {
+            if(allDots[column -1, row].tag == piece.tag && allDots[column -2, row].tag == piece.tag)
+            {
+                return true;
+            }
+            if (allDots[column, row -1].tag == piece.tag && allDots[column, row -2].tag == piece.tag)
+            {
+                return true;
+            }
+        }
+        else if(column <= 1 || row <= 1)
+        {
+            if (row > 1)
+            {
+                if (allDots[column, row - 1].tag == piece.tag && allDots[column, row - 2].tag == piece.tag)
+                {
+                    return true;
+                }
+            }
+            if (column > 1)
+            {
+                if (allDots[column -1, row].tag == piece.tag && allDots[column -2, row].tag == piece.tag)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void DestroyMatchesAt(int column, int row)
+    {
+        if(allDots[column, row].GetComponent<Dots>().isMatched)
+        {
+            Destroy(allDots[column, row]);
+            allDots[column, row] = null;
+        }
+    }
+
+    public  void DestroyMatches()
+    {
+        for(int i = 0; i < width; i++)
+        {
+            for(int j = 0; j < height; j ++)
+            {
+                if(allDots[i, j] != null)
+                {
+                    DestroyMatchesAt(i, j);
+                }
+            }
+        }
+        StartCoroutine(DecreaseRowCoroutine());
+    }
+
+    private IEnumerator DecreaseRowCoroutine()
+    {
+        int nullCount = 0;
+        for(int i = 0; i < width; i++)
+        {
+            for(int j = 0; j < height; j ++)
+            {
+                if(allDots[i, j] == null)
+                {
+                    nullCount++;
+                }
+                else if(nullCount > 0)
+                {
+                    allDots[i, j].GetComponent<Dots>().row -= nullCount;
+                    allDots[i, j] = null;
+                }
+            }
+            nullCount = 0;
+        }
+
+        yield return new WaitForSeconds(0.4f);
+    }
+
 
 
 }
