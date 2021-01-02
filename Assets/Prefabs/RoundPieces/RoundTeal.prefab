@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4405100557921036}
   - component: {fileID: 212311902315623806}
-  - component: {fileID: 114392874611120604}
   - component: {fileID: -3114990096615423605}
   - component: {fileID: -6523488868141518723}
   m_Layer: 0
@@ -85,24 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &114392874611120604
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1616169278628932}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 709387271c8564b168f0d2f6dfa43bca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  xIndex: 0
-  yIndex: 0
-  interpolation: 4
-  matchValue: 8
-  scoreValue: 20
-  clearSound: {fileID: 8300000, guid: 6dce900c6b57748dbb2ee112588b2bd9, type: 3}
 --- !u!58 &-3114990096615423605
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -144,3 +125,5 @@ MonoBehaviour:
   isRowBomb: 0
   rowBomb: {fileID: 2862254450890437443, guid: f09901d516bde4b78ad0130fe1cf8d97, type: 3}
   colomnBomb: {fileID: 2862254450890437443, guid: 332db688e3b574b948ecde74591d3452, type: 3}
+  adjacentBomb: {fileID: 2862254450890437443, guid: 1a00315e6a222424585e1c651cb41789, type: 3}
+  colorBomb: {fileID: 1000013338762844, guid: 1a1602c69ff0542d7905e28330aca523, type: 3}

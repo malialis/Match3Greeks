@@ -14,18 +14,21 @@ public enum GameState
 
 public class TaftBoard : MonoBehaviour
 {
+    [Header("Board Variables")]
     public GameState currentState = GameState.move;
-
     public int width;
     public int height;
     public int offset;
+
+    [Header("Dots Variables")]
     public GameObject tilePrefab;
     public GameObject[] dots;
-
     public GameObject destroyFX;
-
     private BackgroundTile[,] allTiles;
     public GameObject[,] allDots;
+    public Dots currentDot;
+
+    [Header("Matches Variables")]
     private FindMatches findMatches;
 
 
@@ -117,6 +120,11 @@ public class TaftBoard : MonoBehaviour
     {
         if(allDots[column, row].GetComponent<Dots>().isMatched)
         {
+            //how many elements are in the matched pieces list?
+            if(findMatches.currentMatches.Count == 4 || findMatches.currentMatches.Count == 7)
+            {
+                findMatches.CheckBombs();
+            }
             findMatches.currentMatches.Remove(allDots[column, row]);
             GameObject particle = Instantiate(destroyFX, allDots[column, row].transform.position, Quaternion.identity);
             Destroy(particle, 1f);

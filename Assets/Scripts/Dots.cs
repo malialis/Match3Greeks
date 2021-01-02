@@ -13,7 +13,7 @@ public class Dots : MonoBehaviour
     public int targetX;
     public int targetY;
 
-    private GameObject otherDot;
+    public GameObject otherDot;
     private TaftBoard board;
     private FindMatches findMatches;
     private Vector2 firstTouchPosition;
@@ -29,6 +29,8 @@ public class Dots : MonoBehaviour
     public bool isRowBomb;
     public GameObject rowBomb;
     public GameObject colomnBomb;
+    public GameObject adjacentBomb;
+    public GameObject colorBomb;
 
 
     // Start is called before the first frame update
@@ -65,11 +67,12 @@ public class Dots : MonoBehaviour
     void Update()
     {
        
-        if (isMatched)
+       /* if (isMatched)
         {
             SpriteRenderer mySprite = GetComponent<SpriteRenderer>();
             mySprite.color = new Color(1f, 1f, 1f, 0.2f);
         }
+       */
         targetX = column;
         targetY = row;
         if(Mathf.Abs(targetX - transform.position.x) > 0.1)
@@ -141,10 +144,11 @@ public class Dots : MonoBehaviour
             Debug.Log(swipeAngle);
             MovePieces();
             board.currentState = GameState.wait;
+            board.currentDot = this;
         }
         else
         {
-            board.currentState = GameState.move;
+            board.currentState = GameState.move;            
         }
         
     }
@@ -237,7 +241,7 @@ public class Dots : MonoBehaviour
                 otherDot.GetComponent<Dots>().column = column;
                 row = previousRow;
                 column = previousColumn;
-
+                board.currentDot = null;
                 yield return new WaitForSeconds(0.4f);
                 board.currentState = GameState.move;
             }
@@ -245,11 +249,24 @@ public class Dots : MonoBehaviour
             {
                 board.DestroyMatches();                
             }
-            otherDot = null;
+            //otherDot = null;
         }
         
     }
 
+    public void MakeRowBomb()
+    {
+        isRowBomb = true;
+        GameObject arrow = Instantiate(rowBomb, transform.position, Quaternion.identity);
+        arrow.transform.parent = this.transform;
+    }
+
+    public void MakeColumnBomb()
+    {
+        isColumnBomb = true;
+        GameObject arrow = Instantiate(colomnBomb, transform.position, Quaternion.identity);
+        arrow.transform.parent = this.transform;
+    }
 
 
 }
