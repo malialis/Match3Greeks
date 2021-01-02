@@ -125,7 +125,7 @@ public class TaftBoard : MonoBehaviour
             {
                 findMatches.CheckBombs();
             }
-            findMatches.currentMatches.Remove(allDots[column, row]);
+            
             GameObject particle = Instantiate(destroyFX, allDots[column, row].transform.position, Quaternion.identity);
             Destroy(particle, 1f);
             Destroy(allDots[column, row]);
@@ -145,6 +145,7 @@ public class TaftBoard : MonoBehaviour
                 }
             }
         }
+        findMatches.currentMatches.Clear();
         StartCoroutine(DecreaseRowCoroutine());
     }
 
@@ -224,6 +225,8 @@ public class TaftBoard : MonoBehaviour
             yield return new WaitForSeconds(0.4f);
             DestroyMatches();
         }
+        findMatches.currentMatches.Clear();
+        currentDot = null;
         yield return new WaitForSeconds(0.4f);
         currentState = GameState.move;
 

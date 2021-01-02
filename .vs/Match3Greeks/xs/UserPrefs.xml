@@ -1,16 +1,20 @@
-﻿<Properties StartupConfiguration="{1C986491-80FC-F4E5-D870-2E81446F9462}|">
+﻿<Properties>
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/FindMatches.cs">
     <Files>
-      <File FileName="Assets/Scripts/TaftBoard.cs" Line="118" Column="68" />
-      <File FileName="Assets/Scripts/Dots.cs" />
-      <File FileName="Assets/Scripts/FindMatches.cs" Line="74" Column="71" />
+      <File FileName="Assets/Scripts/TaftBoard.cs" Line="128" Column="13" />
+      <File FileName="Assets/Scripts/Dots.cs" Line="62" Column="10" />
+      <File FileName="Assets/Scripts/FindMatches.cs" Line="121" Column="77" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Match3Greeks" expanded="True">
-            <Node name="Assets" expanded="True" selected="True">
-              <Node name="Scripts" expanded="True" />
+            <Node name="Assembly-CSharp" expanded="True">
+              <Node name="Assets" expanded="True">
+                <Node name="Scripts" expanded="True">
+                  <Node name="FindMatches.cs" selected="True" />
+                </Node>
+              </Node>
             </Node>
           </Node>
         </State>
@@ -19,7 +23,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="21161e49-ca2f-485f-bbde-25b0234bdfa2" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="2582e9e2-add7-48ed-9c0e-00964bd44d1c" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

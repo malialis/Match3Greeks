@@ -27,6 +27,7 @@ public class Dots : MonoBehaviour
     [Header("PowerUp Variables")]
     public bool isColumnBomb;
     public bool isRowBomb;
+    public bool isColorBomb;
     public GameObject rowBomb;
     public GameObject colomnBomb;
     public GameObject adjacentBomb;
@@ -55,9 +56,9 @@ public class Dots : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            isRowBomb = true;
-            GameObject arrow = Instantiate(rowBomb, transform.position, Quaternion.identity);
-            arrow.transform.parent = this.transform;
+            isColorBomb = true;
+            GameObject color = Instantiate(colorBomb, transform.position, Quaternion.identity);
+            color.transform.parent = this.transform;
         }
     }
 
@@ -141,7 +142,7 @@ public class Dots : MonoBehaviour
         if(Mathf.Abs(finalTouchPosition.y - firstTouchPosition.y) > swipeResist || Mathf.Abs(finalTouchPosition.x - firstTouchPosition.x) > swipeResist)
         {
             swipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x) * 180 / Mathf.PI;
-            Debug.Log(swipeAngle);
+            //Debug.Log(swipeAngle);
             MovePieces();
             board.currentState = GameState.wait;
             board.currentDot = this;
@@ -232,6 +233,19 @@ public class Dots : MonoBehaviour
 
    public IEnumerator CheckMoveCoroutine()
     {
+        if (isColorBomb)
+        {
+            //this piece is the color bomb, and the other piece is the color to destroy
+            findMatches.MatchPiecesOfColor(otherDot.tag);
+            isMatched = true;
+        }
+        else if(otherDot.GetComponent<Dots>().isColorBomb)
+        {
+            //the other piece is a color bomb, and this piece has the color to destroy
+            findMatches.MatchPiecesOfColor(this.gameObject.tag);
+            otherDot.GetComponent<Dots>().isMatched = true;
+        }
+
         yield return new WaitForSeconds(0.25f);
         if(otherDot != null)
         {
