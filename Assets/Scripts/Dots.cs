@@ -109,57 +109,37 @@ public class Dots : MonoBehaviour
         otherDot = board.allDots[column + (int)direction.x, row + (int)direction.y];
         previousRow = row;
         previousColumn = column;
-        otherDot.GetComponent<Dots>().column += -1 * (int)direction.x;
-        otherDot.GetComponent<Dots>().row += -1 * (int)direction.y;
-        column += (int)direction.x;
-        row += (int)direction.y;
-        StartCoroutine(CheckMoveCoroutine());
+
+        if(otherDot != null)
+        {
+            otherDot.GetComponent<Dots>().column += -1 * (int)direction.x;
+            otherDot.GetComponent<Dots>().row += -1 * (int)direction.y;
+            column += (int)direction.x;
+            row += (int)direction.y;
+            StartCoroutine(CheckMoveCoroutine());
+        }
+        else
+        {
+            board.currentState = GameState.move;
+        }
     }
 
     private void MovePieces()
     {
         if(swipeAngle > -45 && swipeAngle <= 45 && column < board.width -1) // right swipe
         {
-            /*
-            otherDot = board.allDots[column + 1, row];
-            previousRow = row;
-            previousColumn = column;
-            otherDot.GetComponent<Dots>().column -= 1;
-            column += 1;
-            */
             MoveActualPieces(Vector2.right);
         }
         else if (swipeAngle > 45 && swipeAngle <= 135 && row < board.height -1) // up swipe
-        {
-            /*
-            otherDot = board.allDots[column, row + 1];
-            previousRow = row;
-            previousColumn = column;
-            otherDot.GetComponent<Dots>().row -= 1;
-            row += 1;
-            */
+        {           
             MoveActualPieces(Vector2.up);
         }
         else if ((swipeAngle > 135 || swipeAngle <= -135) && column > 0) // left swipe
         {
-            /*
-            otherDot = board.allDots[column - 1, row];
-            previousRow = row;
-            previousColumn = column;
-            otherDot.GetComponent<Dots>().column += 1;
-            column -= 1;
-            */
             MoveActualPieces(Vector2.left);
         }
         else if (swipeAngle < -45 && swipeAngle >= -135 && row > 0) // down swipe
         {
-            /*
-            otherDot = board.allDots[column, row - 1];
-            previousRow = row;
-            previousColumn = column;
-            otherDot.GetComponent<Dots>().row += 1;
-            row -= 1;
-            */
             MoveActualPieces(Vector2.down);
         }
         //StartCoroutine(CheckMoveCoroutine());
@@ -320,5 +300,7 @@ public class Dots : MonoBehaviour
             transform.position = tempPosition;
         }
     }
+
+
 
 }

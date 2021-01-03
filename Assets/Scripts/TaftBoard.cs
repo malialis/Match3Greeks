@@ -10,9 +10,19 @@ public enum GameState
     move
 }
 
+public enum TileKind
+{
+    Blank,
+    Breakable,
+    Normal
+}
+
+[System.Serializable]
 public class TileType
 {
-
+    public int x;
+    public int y;
+    public TileKind tileKind;
 }
 
 
@@ -29,7 +39,10 @@ public class TaftBoard : MonoBehaviour
     public GameObject tilePrefab;
     public GameObject[] dots;
     public GameObject destroyFX;
-    private BackgroundTile[,] allTiles;
+    [SerializeField]
+    public TileType[] boardLayout;
+    //private BackgroundTile[,] allTiles;
+    private bool[,] blankSpaces;
     public GameObject[,] allDots;
     public Dots currentDot;
 
@@ -41,7 +54,7 @@ public class TaftBoard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        allTiles = new BackgroundTile[width, height]; // tells the board how big it is going to be, not filling it in but size
+        blankSpaces = new bool[width, height]; // tells the board how big it is going to be, not filling it in but size
         allDots = new GameObject[width, height];
         findMatches = FindObjectOfType<FindMatches>();
         SetUp();
@@ -55,67 +68,85 @@ public class TaftBoard : MonoBehaviour
 
     private void SetUp()
     {
+        GenerateBlankSpaces();
+
         for(int i = 0; i < width; i++)
         {
             for(int j = 0; j < height; j++)
             {
-                Vector2 tempPosition = new Vector2 (i, j + offset);
-                GameObject backgroundTile = Instantiate(tilePrefab, tempPosition , Quaternion.identity) as GameObject; // populates board with the tilePrefab
-                backgroundTile.transform.parent = this.transform; // setting its parent to the board
-                backgroundTile.name = "( " + i + ", " + j + " )"; // naming it as its coordinates
-
-                int dotToUse = Random.Range(0, dots.Length);
-                int maxIterations = 0;
-
-                while (MatchesAt(i, j, dots[dotToUse]) && maxIterations < 100)
+                if(!blankSpaces[i, j])
                 {
-                    dotToUse = Random.Range(0, dots.Length);
-                    maxIterations++;
-                    Debug.Log(maxIterations);
+                    Vector2 tempPosition = new Vector2(i, j + offset);
+                    GameObject backgroundTile = Instantiate(tilePrefab, tempPosition, Quaternion.identity) as GameObject; // populates board with the tilePrefab
+                    backgroundTile.transform.parent = this.transform; // setting its parent to the board
+                    backgroundTile.name = "( " + i + ", " + j + " )"; // naming it as its coordinates
+
+                    int dotToUse = Random.Range(0, dots.Length);
+                    int maxIterations = 0;
+
+                    while (MatchesAt(i, j, dots[dotToUse]) && maxIterations < 100)
+                    {
+                        dotToUse = Random.Range(0, dots.Length);
+                        maxIterations++;
+                        Debug.Log(maxIterations);
+                    }
+
+                    maxIterations = 0;
+                    GameObject dot = Instantiate(dots[dotToUse], tempPosition, Quaternion.identity);
+                    dot.GetComponent<Dots>().row = j;
+                    dot.GetComponent<Dots>().column = i;
+
+                    dot.transform.parent = this.transform; // parent the dot to the tile
+                    dot.name = "( " + i + ", " + j + " )"; // naming it as its coordinates
+
+                    allDots[i, j] = dot;
                 }
-
-                maxIterations = 0;
-                GameObject dot = Instantiate(dots[dotToUse], tempPosition, Quaternion.identity);
-                dot.GetComponent<Dots>().row = j;
-                dot.GetComponent<Dots>().column = i;
-
-                dot.transform.parent = this.transform; // parent the dot to the tile
-                dot.name = "( " + i + ", " + j + " )"; // naming it as its coordinates
-
-                allDots[i, j] = dot;
             }
+                
         }
     }
 
-
     private bool MatchesAt(int column, int row, GameObject piece)
     {
-        if(column > 1 && row > 1)
+        if (column > 1 && row > 1)
         {
-            if(allDots[column -1, row].tag == piece.tag && allDots[column -2, row].tag == piece.tag)
+            if (allDots[column - 1, row] != null && allDots[column - 2, row] != null)
             {
-                return true;
+                if (allDots[column - 1, row].tag == piece.tag && allDots[column - 2, row].tag == piece.tag)
+                {
+                    return true;
+                }
             }
-            if (allDots[column, row -1].tag == piece.tag && allDots[column, row -2].tag == piece.tag)
-            {
-                return true;
-            }
-        }
-        else if(column <= 1 || row <= 1)
-        {
-            if (row > 1)
+            if (allDots[column, row -1] != null && allDots[column, row -2] != null)
             {
                 if (allDots[column, row - 1].tag == piece.tag && allDots[column, row - 2].tag == piece.tag)
                 {
                     return true;
                 }
+            }                
+        }
+        else if(column <= 1 || row <= 1)
+        {
+            if (row > 1)
+            {
+                if (allDots[column, row - 1] != null && allDots[column, row - 2] != null)
+                {
+                    if (allDots[column, row - 1].tag == piece.tag && allDots[column, row - 2].tag == piece.tag)
+                    {
+                        return true;
+                    }
+                }
+                    
             }
             if (column > 1)
             {
-                if (allDots[column -1, row].tag == piece.tag && allDots[column -2, row].tag == piece.tag)
+                if (allDots[column - 1, row] != null && allDots[column - 2, row] != null)
                 {
-                    return true;
-                }
+                    if (allDots[column - 1, row].tag == piece.tag && allDots[column - 2, row].tag == piece.tag)
+                    {
+                        return true;
+                    }
+                }                    
             }
         }
         return false;
@@ -250,7 +281,7 @@ public class TaftBoard : MonoBehaviour
             }
         }
         findMatches.currentMatches.Clear();
-        StartCoroutine(DecreaseRowCoroutine());
+        StartCoroutine(DecreaseRowWithNullsCoroutine());
     }
 
     private IEnumerator DecreaseRowCoroutine()
@@ -284,7 +315,7 @@ public class TaftBoard : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
-                if (allDots[i, j] == null)
+                if (allDots[i, j] == null && !blankSpaces[i, j])
                 {
                     Vector2 tempPosition = new Vector2(i, j + offset);
                     int dotToUse = Random.Range(0, dots.Length);
@@ -335,6 +366,49 @@ public class TaftBoard : MonoBehaviour
         currentState = GameState.move;
 
     }
+
+    private IEnumerator DecreaseRowWithNullsCoroutine()
+    {
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                //if the current spot is not blank or empty.....
+                if(!blankSpaces[i, j] && allDots[i, j] == null)
+                {
+                    //loop from the space above to the top of column
+                    for (int k = j + 1; k < height; k++)
+                    {
+                        //if dot is found
+                        if(allDots[i, k] != null)
+                        {
+                            //move that dot to the empty space
+                            allDots[i, k].GetComponent<Dots>().row = j;
+                            // set that spot to be null
+                            allDots[i, k] = null;
+                            //break loop
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(FillBoardCoroutine());
+    }
+
+    public void GenerateBlankSpaces()
+    {
+        for (int i = 0; i < boardLayout.Length; i++)
+        {
+            if(boardLayout[i].tileKind == TileKind.Blank)
+            {
+                blankSpaces[boardLayout[i].x, boardLayout[i].y] = true;
+            }
+        }
+    }
+
+
 
 
 
