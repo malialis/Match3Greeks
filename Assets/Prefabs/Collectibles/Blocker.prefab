@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4000012251270652}
   - component: {fileID: 212000013725561902}
-  - component: {fileID: 114000012876262822}
   m_Layer: 0
   m_Name: Blocker
   m_TagString: Untagged
@@ -69,9 +68,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -212612009
+  m_SortingLayer: 2
+  m_SortingOrder: 8
   m_Sprite: {fileID: 21300000, guid: 5cfb7db0cb24644c6b0bff821cef7e30, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -83,23 +82,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &114000012876262822
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010844454024}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0772d2b7bf0234fd8a0f365f93c1dd44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  xIndex: 0
-  yIndex: 0
-  interpolation: 4
-  matchValue: 16
-  scoreValue: 500
-  clearSound: {fileID: 8300000, guid: b1e6e75baf8f04ae59f52e341161f1a9, type: 3}
-  clearedByBomb: 1
-  clearedAtBottom: 0

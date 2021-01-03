@@ -10,6 +10,10 @@ public enum GameState
     move
 }
 
+public class TileType
+{
+
+}
 
 
 public class TaftBoard : MonoBehaviour

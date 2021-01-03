@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7922906341244767030}
   - component: {fileID: 7775128250911275815}
-  - component: {fileID: -9008164157427435553}
   m_Layer: 0
   m_Name: RowBomb
   m_TagString: Untagged
@@ -85,25 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-9008164157427435553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2862254450890437443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ec98ed3e8a8848e0b3f8b70a4dcd784, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  xIndex: 0
-  yIndex: 0
-  interpolation: 4
-  matchValue: 16
-  scoreValue: 150
-  clearSound: {fileID: 8300000, guid: 8743038399aa64c5db230df6c26f4b71, type: 3}
-  bombType: 2
 --- !u!1 &6134377460097827429
 GameObject:
   m_ObjectHideFlags: 0
