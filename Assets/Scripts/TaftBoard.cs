@@ -19,6 +19,7 @@ public class TaftBoard : MonoBehaviour
     public int width;
     public int height;
     public int offset;
+    public float delayTime;
 
     [Header("Dots Variables")]
     public GameObject tilePrefab;
@@ -116,18 +117,117 @@ public class TaftBoard : MonoBehaviour
         return false;
     }
 
+    private void CheckToMakeBombs()
+    {
+        if (findMatches.currentMatches.Count == 4 || findMatches.currentMatches.Count == 7)
+        {
+            findMatches.CheckBombs();
+        }
+        if (findMatches.currentMatches.Count == 5 || findMatches.currentMatches.Count == 8)
+        {
+            if (ColumnOrRow())
+            {
+                //make a color bomb
+                //is current dot matched
+                if (currentDot != null)
+                {
+                    if (currentDot.isMatched)
+                    {
+                        if (!currentDot.isColorBomb)
+                        {
+                            currentDot.isMatched = false;
+                            currentDot.MakeColorBomb();
+                        }
+                    }
+                    else
+                    {
+                        if (currentDot.otherDot != null)
+                        {
+                            Dots otherDot = currentDot.otherDot.GetComponent<Dots>();
+                            if (otherDot.isMatched)
+                            {
+                                if (!otherDot.isColorBomb)
+                                {
+                                    otherDot.isMatched = false;
+                                    otherDot.MakeColorBomb();
+                                }
+                            }
+                        }
+                    }
+                }
+                Debug.Log("Make a color bomb");
+            }
+            else
+            {
+                //make an adjacent bomb
+                if (currentDot != null)
+                {
+                    if (currentDot.isMatched)
+                    {
+                        if (!currentDot.isAdjacentBomb)
+                        {
+                            currentDot.isMatched = false;
+                            currentDot.MakeAdjacentBomb();
+                        }
+                    }
+                    else
+                    {
+                        if (currentDot.otherDot != null)
+                        {
+                            Dots otherDot = currentDot.otherDot.GetComponent<Dots>();
+                            if (otherDot.isMatched)
+                            {
+                                if (!otherDot.isColorBomb)
+                                {
+                                    otherDot.isMatched = false;
+                                    otherDot.MakeAdjacentBomb();
+                                }
+                            }
+                        }
+                    }
+                    Debug.Log("Make a adjacent bomb");
+                }
+            }
+        }
+    }
+
+    private bool ColumnOrRow()
+    {
+        int numberHorizontal = 0;
+        int numberVertical = 0;
+
+        Dots firstPiece = findMatches.currentMatches[0].GetComponent<Dots>();
+        if(firstPiece != null)
+        {
+            foreach (GameObject currentPiece in findMatches.currentMatches)
+            {
+                Dots dot = currentPiece.GetComponent<Dots>();
+                if(dot.row == firstPiece.row)
+                {
+                    numberHorizontal++;
+                }
+                if(dot.column == firstPiece.column)
+                {
+                    numberVertical++;
+                }
+            }
+        }
+        return (numberVertical == 5 || numberHorizontal == 5);
+        
+    }
+
     private void DestroyMatchesAt(int column, int row)
     {
         if(allDots[column, row].GetComponent<Dots>().isMatched)
         {
             //how many elements are in the matched pieces list?
-            if(findMatches.currentMatches.Count == 4 || findMatches.currentMatches.Count == 7)
+            if(findMatches.currentMatches.Count >= 4)
             {
-                findMatches.CheckBombs();
+                CheckToMakeBombs();
             }
             
             GameObject particle = Instantiate(destroyFX, allDots[column, row].transform.position, Quaternion.identity);
-            Destroy(particle, 1f);
+            Destroy(particle, delayTime);
             Destroy(allDots[column, row]);
             allDots[column, row] = null;
         }

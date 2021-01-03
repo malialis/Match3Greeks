@@ -1,29 +1,22 @@
-﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/FindMatches.cs">
+﻿<Properties StartupConfiguration="{1C986491-80FC-F4E5-D870-2E81446F9462}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/CameraScaler.cs">
     <Files>
-      <File FileName="Assets/Scripts/TaftBoard.cs" Line="128" Column="13" />
-      <File FileName="Assets/Scripts/Dots.cs" Line="62" Column="10" />
-      <File FileName="Assets/Scripts/FindMatches.cs" Line="121" Column="77" />
+      <File FileName="Assets/Scripts/TaftBoard.cs" Line="50" Column="6" />
+      <File FileName="Assets/Scripts/Dots.cs" Line="308" Column="87" />
+      <File FileName="Assets/Scripts/FindMatches.cs" />
+      <File FileName="Assets/Scripts/CameraScaler.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="Match3Greeks" expanded="True">
-            <Node name="Assembly-CSharp" expanded="True">
-              <Node name="Assets" expanded="True">
-                <Node name="Scripts" expanded="True">
-                  <Node name="FindMatches.cs" selected="True" />
-                </Node>
-              </Node>
-            </Node>
-          </Node>
+          <Node name="Match3Greeks" expanded="True" selected="True" />
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="2582e9e2-add7-48ed-9c0e-00964bd44d1c" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="24816b20-f29a-4094-afe4-9805d3073ca5" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

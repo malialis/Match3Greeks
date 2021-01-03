@@ -119,11 +119,14 @@ MonoBehaviour:
   previousRow: 0
   targetX: 0
   targetY: 0
+  otherDot: {fileID: 0}
   swipeAngle: 0
   swipeResist: 1
   isColumnBomb: 0
   isRowBomb: 0
+  isColorBomb: 0
+  isAdjacentBomb: 0
   rowBomb: {fileID: 2862254450890437443, guid: f09901d516bde4b78ad0130fe1cf8d97, type: 3}
-  colomnBomb: {fileID: 2862254450890437443, guid: 332db688e3b574b948ecde74591d3452, type: 3}
+  columnBomb: {fileID: 2862254450890437443, guid: 332db688e3b574b948ecde74591d3452, type: 3}
   adjacentBomb: {fileID: 2862254450890437443, guid: 1a00315e6a222424585e1c651cb41789, type: 3}
   colorBomb: {fileID: 1000013338762844, guid: 1a1602c69ff0542d7905e28330aca523, type: 3}
