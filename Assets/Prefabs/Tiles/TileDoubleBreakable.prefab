@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5997042428416168900}
   - component: {fileID: 5945199475260608546}
   - component: {fileID: -7248114536249494951}
-  - component: {fileID: 6008468362980301757}
+  - component: {fileID: 5336923944103125294}
   m_Layer: 0
   m_Name: TileDoubleBreakable
   m_TagString: Untagged
@@ -110,7 +110,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.85, y: 0.85}
   m_EdgeRadius: 0
---- !u!114 &6008468362980301757
+--- !u!114 &5336923944103125294
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,15 +119,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5997042428416168903}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc5fe2601616a40c9a7270f06d6bdb11, type: 3}
+  m_Script: {fileID: 11500000, guid: e0a684a91ecf645ab90ca3df3c05293b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xIndex: 0
-  yIndex: 0
-  breakableValue: 2
-  breakableSprites:
-  - {fileID: 21300000, guid: 79c5dc2b8a67c4aa391ef6c6268f0e49, type: 3}
-  - {fileID: 21300000, guid: 6dcaad9fcd8254205943faf53733c9fa, type: 3}
-  - {fileID: 21300000, guid: dc784c76424f948bda30fa3b2f71cf28, type: 3}
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
-  tileType: 2
+  hitPoints: 4

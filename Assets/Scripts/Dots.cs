@@ -15,6 +15,7 @@ public class Dots : MonoBehaviour
 
     public GameObject otherDot;
     private TaftBoard board;
+    private HintManager hintManager;
     private FindMatches findMatches;
     private Vector2 firstTouchPosition;
     private Vector2 finalTouchPosition;
@@ -40,6 +41,7 @@ public class Dots : MonoBehaviour
     {
         board = FindObjectOfType<TaftBoard>();
         findMatches = FindObjectOfType<FindMatches>();
+        hintManager = FindObjectOfType<HintManager>();
 
         isAdjacentBomb = false;
         isColumnBomb = false;        
@@ -71,6 +73,10 @@ public class Dots : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if(hintManager != null)
+        {
+            hintManager.DestroyHint();
+        }
         if(board.currentState == GameState.move)
         {
             firstTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
