@@ -13,6 +13,7 @@ TagManager:
   - Round Teal Dot
   - Round Yellow Dot
   - Round Wild Dot
+  - Color
   layers:
   - Default
   - TransparentFX
@@ -55,4 +56,7 @@ TagManager:
     locked: 0
   - name: Bombs
     uniqueID: 4082355287
+    locked: 0
+  - name: BG
+    uniqueID: 3755070419
     locked: 0

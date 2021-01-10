@@ -179,8 +179,14 @@ public class FindMatches : MonoBehaviour
         {
             if(board.allDots[column, i] != null)
             {
+                Dots dot = board.allDots[column, i].GetComponent<Dots>();
+                if (dot.isRowBomb)
+                {
+                    dots.Union(GetRowPieces(i)).ToList();
+                }
+
                 dots.Add(board.allDots[column, i]);
-                board.allDots[column, i].GetComponent<Dots>().isMatched = true;
+                dot.isMatched = true;
                // Debug.Log("Column match Found yo");
             }
         }
@@ -195,14 +201,45 @@ public class FindMatches : MonoBehaviour
         {
             if (board.allDots[i, row] != null)
             {
+                Dots dot = board.allDots[i, row].GetComponent<Dots>();
+                if (dot.isColorBomb)
+                {
+                    dots.Union(GetColumnPieces(i)).ToList();
+                }
                 dots.Add(board.allDots[i, row]);
-                board.allDots[i, row].GetComponent<Dots>().isMatched = true;
+                dot.isMatched = true;
                // Debug.Log("Row match Found yo");
             }
         }
 
         return dots;
     }
+
+    private List<GameObject> GetAdjacentPieces(int column, int row)
+    {
+        List<GameObject> dots = new List<GameObject>();
+        for (int i = column - 1; i <= column + 1; i++)
+        {
+            for (int j = row - 1; j <= row + 1; j++)
+            {
+                //check if inside board
+                if (i >= 0 && i < board.width && j >= 0 && j < board.height)
+                {
+                    if (board.allDots[i, j] != null)
+                    {
+                        dots.Add(board.allDots[i, j]);
+                        board.allDots[i, j].GetComponent<Dots>().isMatched = true;
+                    }
+
+                }
+            }
+
+        }
+
+        return dots;
+    }
+
+
 
     public void CheckBombs()
     {
@@ -228,21 +265,6 @@ public class FindMatches : MonoBehaviour
                     board.currentDot.MakeColumnBomb();
                 }
 
-               /* //decide what kind of bomb to make
-                int typeOfBomb = Random.Range(0, 100);
-                if(typeOfBomb < 50)
-                {
-                    //make row bomb
-                    board.currentDot.MakeRowBomb();
-                }
-                else if(typeOfBomb >= 50)
-                {
-                    //make a column bomb
-                    board.currentDot.MakeColumnBomb();
-                }
-               */
-
-
             }
             else if (board.currentDot.otherDot != null)
             {
@@ -266,45 +288,13 @@ public class FindMatches : MonoBehaviour
                         //make a column bomb
                         otherDot.MakeColumnBomb();
                     }
-
-                    /*
-                    int typeOfBomb = Random.Range(0, 100);
-                    if (typeOfBomb < 50)
-                    {
-                        //make row bomb
-                        otherDot.MakeRowBomb();
-                    }
-                    else if (typeOfBomb >= 50)
-                    {
-                        //make a column bomb
-                        otherDot.MakeColumnBomb();
-                    }
-                    */
                 }
             }
         }
     }
 
 
-    private List<GameObject> GetAdjacentPieces(int column, int row)
-    {
-        List<GameObject> dots = new List<GameObject>();
-        for (int i = column -1; i <= column +1; i++)
-        {
-            for(int j = row -1; j <= row + 1; j++)
-            {
-                //check if inside board
-                if (i >= 0 && i < board.width && j >= 0 && j < board.height)
-                {
-                    dots.Add(board.allDots[i, j]);
-                    board.allDots[i, j].GetComponent<Dots>().isMatched = true; 
-                }
-            }
-            
-        }
-
-        return dots;
-    }
+    
 
 
 }

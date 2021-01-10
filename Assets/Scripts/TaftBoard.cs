@@ -34,6 +34,12 @@ public class TaftBoard : MonoBehaviour
     public int height;
     public int offset;
     public float delayTime;
+    public float refillDelay = 0.75f;
+    private ScoreManager scoreManager;
+    public int[] scoreGoals;
+    private SoundManager soundManager;
+    public int basePieceValue = 20;
+    private int streakValue = 1;
 
     [Header("Dots Variables")]
     public GameObject tilePrefab;
@@ -61,6 +67,8 @@ public class TaftBoard : MonoBehaviour
         blankSpaces = new bool[width, height]; // tells the board how big it is going to be, not filling it in but size
         allDots = new GameObject[width, height];
         findMatches = FindObjectOfType<FindMatches>();
+        scoreManager = FindObjectOfType<ScoreManager>();
+        soundManager = FindObjectOfType<SoundManager>();
         SetUp();
     }
 
@@ -82,7 +90,8 @@ public class TaftBoard : MonoBehaviour
                 if(!blankSpaces[i, j])
                 {
                     Vector2 tempPosition = new Vector2(i, j + offset);
-                    GameObject backgroundTile = Instantiate(tilePrefab, tempPosition, Quaternion.identity) as GameObject; // populates board with the tilePrefab
+                    Vector2 tilePosition = new Vector2(i, j);
+                    GameObject backgroundTile = Instantiate(tilePrefab, tilePosition, Quaternion.identity) as GameObject; // populates board with the tilePrefab
                     backgroundTile.transform.parent = this.transform; // setting its parent to the board
                     backgroundTile.name = "( " + i + ", " + j + " )"; // naming it as its coordinates
 
@@ -276,8 +285,15 @@ public class TaftBoard : MonoBehaviour
             }
             
             GameObject particle = Instantiate(destroyFX, allDots[column, row].transform.position, Quaternion.identity);
+            //does the sound exist
+            if(soundManager != null)
+            {
+                soundManager.PlayRandomDestroyNoise();
+            }
+
             Destroy(particle, delayTime);
             Destroy(allDots[column, row]);
+            scoreManager.IncreaseScore(basePieceValue * streakValue);
             allDots[column, row] = null;
         }
     }
@@ -333,6 +349,16 @@ public class TaftBoard : MonoBehaviour
                 {
                     Vector2 tempPosition = new Vector2(i, j + offset);
                     int dotToUse = Random.Range(0, dots.Length);
+                    int maxIterations = 0;
+
+                    while(MatchesAt(i, j, dots[dotToUse]) && maxIterations < 100)
+                    {
+                        maxIterations++;
+                        dotToUse = Random.Range(0, dots.Length);
+                    }
+
+                    maxIterations = 0;
+
                     GameObject piece = Instantiate(dots[dotToUse], tempPosition, Quaternion.identity);
 
                     allDots[i, j] = piece;
@@ -367,16 +393,18 @@ public class TaftBoard : MonoBehaviour
     private IEnumerator FillBoardCoroutine()
     {
         RefillBoard();
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(refillDelay);
 
         while (MatchesOnBoard())
         {
-            yield return new WaitForSeconds(0.4f);
+            streakValue ++;
+            yield return new WaitForSeconds(2 * refillDelay);
             DestroyMatches();
+            yield return new WaitForSeconds(2 * refillDelay);
         }
         findMatches.currentMatches.Clear();
         currentDot = null;
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(refillDelay);
 
         if (IsBoardDeadlocked())
         {
@@ -385,7 +413,9 @@ public class TaftBoard : MonoBehaviour
             Debug.Log("Board is shuffled yo");
         }
 
+        yield return new WaitForSeconds(refillDelay);
         currentState = GameState.move;
+        streakValue = 1;
 
     }
 
@@ -415,7 +445,7 @@ public class TaftBoard : MonoBehaviour
                 }
             }
         }
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(refillDelay * 0.5f);
         StartCoroutine(FillBoardCoroutine());
     }
 
