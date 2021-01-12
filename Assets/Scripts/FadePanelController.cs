@@ -7,17 +7,6 @@ public class FadePanelController : MonoBehaviour
     public Animator panelAnim;
     public Animator gameInfoAnim;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void OK()
     {
@@ -25,8 +14,23 @@ public class FadePanelController : MonoBehaviour
         {
             panelAnim.SetBool("Out", true);
             gameInfoAnim.SetBool("Out", true);
+            StartCoroutine(GameStartCoroutine());
         }
         
+    }
+
+    private IEnumerator GameStartCoroutine()
+    {
+        yield return new WaitForSeconds(1f);
+        TaftBoard board = FindObjectOfType<TaftBoard>();
+
+        board.currentState = GameState.move;
+    }
+
+    public void GameOver()
+    {
+        panelAnim.SetBool("Out", false);
+        panelAnim.SetBool("GameOver", true);
     }
 
 

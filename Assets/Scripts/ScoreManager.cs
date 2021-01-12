@@ -16,6 +16,7 @@ public class ScoreManager : MonoBehaviour
     void Start()
     {
         board = FindObjectOfType<TaftBoard>();
+        scoreBar.fillAmount = 0;
     }
 
     // Update is called once per frame

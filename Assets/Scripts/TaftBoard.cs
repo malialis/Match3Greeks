@@ -7,7 +7,10 @@ using UnityEngine;
 public enum GameState
 {
     wait,
-    move
+    move,
+    Win,
+    Lose,
+    Pause
 }
 
 public enum TileKind
@@ -34,18 +37,22 @@ public class TaftBoard : MonoBehaviour
     public int height;
     public int offset;
     public float delayTime;
-    public float refillDelay = 0.75f;
-    private ScoreManager scoreManager;
-    public int[] scoreGoals;
-    private SoundManager soundManager;
-    public int basePieceValue = 20;
-    private int streakValue = 1;
+    public float refillDelay = 0.5f;    
+    public int[] scoreGoals;     
+    
+    [Header("Scriptable Objects Related")]
+    public int level;
+    public World world;
 
     [Header("Dots Variables")]
     public GameObject tilePrefab;
     public GameObject[] dots;
     public GameObject destroyFX;
     public GameObject breakablePrefab;
+    public int basePieceValue = 20;
+    private int streakValue = 1;
+    public int damageToTake;
+
     [SerializeField]
     public TileType[] boardLayout;
     [SerializeField]
@@ -53,12 +60,35 @@ public class TaftBoard : MonoBehaviour
     private bool[,] blankSpaces;
     public GameObject[,] allDots;
     public Dots currentDot;
-    public int damageToTake;
+    
 
     [Header("Matches Variables")]
     private FindMatches findMatches;
 
+    [Header("Managers")]
+    private ScoreManager scoreManager;
+    private SoundManager soundManager;
+    private GoalManager goalManager;
 
+
+    private void Awake()
+    {
+        if(world != null)
+        {
+            if(level < world.levels.Length)
+            {
+                if (world.levels[level] != null)
+                {
+                    width = world.levels[level].width;
+                    height = world.levels[level].height;
+                    dots = world.levels[level].dots;
+                    scoreGoals = world.levels[level].scoreGoals;
+                    boardLayout = world.levels[level].boardLayout;
+                }
+            }
+            
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -69,7 +99,9 @@ public class TaftBoard : MonoBehaviour
         findMatches = FindObjectOfType<FindMatches>();
         scoreManager = FindObjectOfType<ScoreManager>();
         soundManager = FindObjectOfType<SoundManager>();
+        goalManager = FindObjectOfType<GoalManager>();
         SetUp();
+        currentState = GameState.Pause;
     }
 
     // Update is called once per frame
@@ -283,7 +315,13 @@ public class TaftBoard : MonoBehaviour
                     breakableTiles[column, row] = null;
                 }
             }
-            
+
+            if(goalManager != null)
+            {
+                goalManager.CompareGoal(allDots[column, row].tag.ToString());
+                goalManager.UpdateGoalsText();
+            }
+
             GameObject particle = Instantiate(destroyFX, allDots[column, row].transform.position, Quaternion.identity);
             //does the sound exist
             if(soundManager != null)

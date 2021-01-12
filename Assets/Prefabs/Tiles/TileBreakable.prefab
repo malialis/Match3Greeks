@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3723954071904234791}
   m_Layer: 0
   m_Name: TileBreakable
-  m_TagString: Untagged
+  m_TagString: Breakable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

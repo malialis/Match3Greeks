@@ -17,6 +17,7 @@ public class Dots : MonoBehaviour
     private TaftBoard board;
     private HintManager hintManager;
     private FindMatches findMatches;
+    private EndGameManager endGameManager;
     private Vector2 firstTouchPosition;
     private Vector2 finalTouchPosition;
     private Vector2 tempPosition;
@@ -42,6 +43,7 @@ public class Dots : MonoBehaviour
         board = FindObjectOfType<TaftBoard>();
         findMatches = FindObjectOfType<FindMatches>();
         hintManager = FindObjectOfType<HintManager>();
+        endGameManager = FindObjectOfType<EndGameManager>();
 
         isAdjacentBomb = false;
         isColumnBomb = false;        
@@ -225,6 +227,13 @@ public class Dots : MonoBehaviour
             }
             else
             {
+                if(endGameManager != null)
+                {
+                    if(endGameManager.requirements.gameType == GameType.Moves)
+                    {
+                        endGameManager.DecreaseCounterValue();
+                    }
+                }
                 board.DestroyMatches();                
             }
             //otherDot = null;
