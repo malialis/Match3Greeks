@@ -10,12 +10,13 @@ public class ScoreManager : MonoBehaviour
     public Image scoreBar;
 
     private TaftBoard board;
-
+    private GameData gameData;
 
     // Start is called before the first frame update
     void Start()
     {
         board = FindObjectOfType<TaftBoard>();
+        gameData = FindObjectOfType<GameData>();
         scoreBar.fillAmount = 0;
     }
 
@@ -23,20 +24,34 @@ public class ScoreManager : MonoBehaviour
     void Update()
     {
         scoreText.text = score.ToString();
+
     }
 
 
     public void IncreaseScore(int ammountToIncrease)
     {
         score += ammountToIncrease;
-        if(board != null && scoreBar != null)
+
+        if(gameData != null)
         {
-            int length = board.scoreGoals.Length;
-            scoreBar.fillAmount = (float)score / (float)board.scoreGoals[length -1];
+            int highScore = gameData.saveData.highScores[board.level];
+            if(score > highScore)
+            {
+                gameData.saveData.highScores[board.level] = score;
+            }
+            gameData.Save();
         }
+        UpdateScoreBar();        
     }
 
-
+    private void UpdateScoreBar()
+    {
+        if (board != null && scoreBar != null)
+        {
+            int length = board.scoreGoals.Length;
+            scoreBar.fillAmount = (float)score / (float)board.scoreGoals[length - 1];
+        }
+    }
 
 
 

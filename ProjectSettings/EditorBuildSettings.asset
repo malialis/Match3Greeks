@@ -6,12 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Levels/WorldMapScreen.unity
-    guid: 56f290aa71ab34168a25ae0e994a7900
+    path: Assets/Scenes/Main.unity
+    guid: 3e71deaa16c1d4e069298cf21286801a
   - enabled: 1
-    path: Assets/Scenes/Levels/World01/Level01.unity
-    guid: 4b38e746d4ca348139c7e93a84423802
-  - enabled: 1
-    path: Assets/Scenes/Levels/World01/Level02.unity
-    guid: 582b7ce95e280420b8d3f76f3976d712
+    path: Assets/Scenes/SplashScreen.unity
+    guid: 757bc351ac3214a0ca82af0cc3497ef5
   m_configObjects: {}
