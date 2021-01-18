@@ -1,13 +1,12 @@
 ﻿<Properties StartupConfiguration="{1C986491-80FC-F4E5-D870-2E81446F9462}|">
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/BaseGameScripts/TaftBoard.cs">
     <Files>
       <File FileName="Assets/Scripts/ScriptableObjects/Level.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/BaseGameScripts/TaftBoard.cs" Line="829" Column="5" />
-      <File FileName="Assets/Scripts/BaseGameScripts/Dots.cs" Line="155" Column="10" />
-      <File FileName="Assets/Scripts/BaseGameScripts/FindMatches.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BaseGameScripts/FindMatches.cs" Line="59" Column="10" />
       <File FileName="Assets/Scripts/FadePanelController.cs" />
       <File FileName="Assets/Scripts/BackToSplashScreen.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/BaseGameScripts/SoundManager.cs" />
+      <File FileName="Assets/Scripts/BaseGameScripts/SoundManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BaseGameScripts/TaftBoard.cs" Line="47" Column="23" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -30,7 +29,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="9d2f93b1-7915-42e7-8b46-440f207af790" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="2e292c11-4409-4fd6-acca-a684b5fa0583" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
