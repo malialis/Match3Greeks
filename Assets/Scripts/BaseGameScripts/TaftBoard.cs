@@ -441,6 +441,8 @@ public class TaftBoard : MonoBehaviour
         }
 
         yield return new WaitForSeconds(refillDelay);
+
+        if(currentState != GameState.Pause)
         currentState = GameState.move;
         makeSlime = true;
         streakValue = 1;
@@ -929,18 +931,15 @@ public class TaftBoard : MonoBehaviour
     public void BombRow(int row)
     {
         for (int i = 0; i < width; i++)
-        {
-            for (int j = 0; j < height; j++)
-            {
-                if(concreteTiles[i, j])
+        {            
+                if(concreteTiles[i, row])
                 {
                     concreteTiles[i, row].TakeDamage(1);
 
                 if(concreteTiles[i, row].hitPoints <= 0)
                 {
                     concreteTiles[i, row] = null;
-                }
-                }
+                }                
             }
         }
     }
@@ -949,9 +948,7 @@ public class TaftBoard : MonoBehaviour
     {
         for (int i = 0; i < width; i++)
         {
-            for (int j = 0; j < height; j++)
-            {
-                if (concreteTiles[column, i])
+            if (concreteTiles[column, i])
                 {
                     concreteTiles[column, i].TakeDamage(1);
 
@@ -959,8 +956,7 @@ public class TaftBoard : MonoBehaviour
                     {
                         concreteTiles[column, i] = null;
                     }
-                }
-            }
+                }            
         }
     }
 
@@ -979,23 +975,24 @@ public class TaftBoard : MonoBehaviour
                 }
             }
         }
+        return;
     }
 
     private Vector2 CheckForAdjacentPieces(int column, int row)
     {
-        if(allDots[column + 1, row] && column < width - 1)
+        if(column < width - 1 && allDots[column + 1, row])
         {
             return Vector2.right;
         }
-        if (allDots[column - 1, row] && column > 0)
+        if (column > 0 && allDots[column - 1, row])
         {
             return Vector2.left;
         }
-        if (allDots[column, row + 1] && row < height - 1)
+        if (row < height - 1 && allDots[column, row + 1])
         {
             return Vector2.up;
         }
-        if (allDots[column, row - 1] && row > 0)
+        if (row > 0 && allDots[column, row - 1])
         {
             return Vector2.down;
         }

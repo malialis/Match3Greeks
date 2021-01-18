@@ -17,10 +17,10 @@ MonoBehaviour:
   boardLayout:
   - x: 2
     y: 2
-    tileKind: 3
+    tileKind: 4
   - x: 3
     y: 2
-    tileKind: 3
+    tileKind: 4
   dots:
   - {fileID: 2678737500004626393, guid: b751f1593232b4b0f80cd8dc670c26df, type: 3}
   - {fileID: 5651688541300933197, guid: 5d0fbed27544a433fa9fc9e3400dd161, type: 3}

@@ -14,7 +14,7 @@ public class BackToSplashScreen : MonoBehaviour
     void Start()
     {
         gameData = FindObjectOfType<GameData>();
-        board = FindObjectOfType<TaftBoard>();
+        board = GameObject.FindWithTag("Board").GetComponent<TaftBoard>();
     }
 
     // Update is called once per frame

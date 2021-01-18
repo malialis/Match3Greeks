@@ -13,7 +13,7 @@ public class FindMatches : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        board = FindObjectOfType<TaftBoard>();
+        board = GameObject.FindWithTag("Board").GetComponent<TaftBoard>();
     }
 
     public void FindAllMatches()

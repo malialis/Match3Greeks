@@ -12,26 +12,68 @@ public class SoundManager : MonoBehaviour
 
     public void PlayRandomDestroyNoise()
     {
-        //choose random number to randomly play clip
-        int clipToPlay = Random.Range(0, destroyNoise.Length);
-        //play clip
-        destroyNoise[clipToPlay].Play();
+        if (PlayerPrefs.HasKey("Sound"))
+        {
+            if(PlayerPrefs.GetInt("Sound") == 1)
+            {
+                //choose random number to randomly play clip
+                int clipToPlay = Random.Range(0, destroyNoise.Length);
+                //play clip
+                destroyNoise[clipToPlay].Play();
+            }
+        }
+        else
+        {
+            //choose random number to randomly play clip
+            int clipToPlay = Random.Range(0, destroyNoise.Length);
+            //play clip
+            destroyNoise[clipToPlay].Play();
+        }
+        
     }
 
     public void PlayRandomErrorNoise()
     {
-        //choose random number to randomly play clip
-        int clipToPlay = Random.Range(0, destroyNoise.Length);
-        //play clip
-        destroyNoise[clipToPlay].Play();
+        if (PlayerPrefs.HasKey("Sound"))
+        {
+            if (PlayerPrefs.GetInt("Sound") == 1)
+            {
+                //choose random number to randomly play clip
+                int clipToPlay = Random.Range(0, destroyNoise.Length);
+                //play clip
+                destroyNoise[clipToPlay].Play();
+            }
+        }
+        else
+        {
+            //choose random number to randomly play clip
+            int clipToPlay = Random.Range(0, destroyNoise.Length);
+            //play clip
+            destroyNoise[clipToPlay].Play();
+        }
+        
     }
 
     public void PlayRandomBGMusic()
     {
-        //choose random number to randomly play clip
-        int clipToPlay = Random.Range(0, destroyNoise.Length);
-        //play clip
-        destroyNoise[clipToPlay].Play();
+        if (PlayerPrefs.HasKey("Sound"))
+        {
+            if (PlayerPrefs.GetInt("Sound") == 1)
+            {
+                //choose random number to randomly play clip
+                int clipToPlay = Random.Range(0, destroyNoise.Length);
+                //play clip
+                destroyNoise[clipToPlay].Play();
+            }
+        }
+        else
+        {
+            //choose random number to randomly play clip
+            int clipToPlay = Random.Range(0, destroyNoise.Length);
+            //play clip
+            destroyNoise[clipToPlay].Play();
+        }
+        
     }
 
     private void Start()
