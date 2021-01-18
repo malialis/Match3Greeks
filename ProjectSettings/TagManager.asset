@@ -16,6 +16,11 @@ TagManager:
   - Color
   - Breakable
   - Double Breakable
+  - Board
+  - Round Grey Dot
+  - Concrete
+  - Chocolate
+  - Locked
   layers:
   - Default
   - TransparentFX

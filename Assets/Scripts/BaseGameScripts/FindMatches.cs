@@ -94,7 +94,9 @@ public class FindMatches : MonoBehaviour
 
     private IEnumerator FindAllMatchesCoroutine()
     {
-        yield return new WaitForSeconds(.2f);
+        // yield return new WaitForSeconds(.2f);
+        yield return null;
+
         for(int i = 0; i < board.width; i++)
         {
             for (int j = 0; j < board.height; j++)
@@ -241,13 +243,13 @@ public class FindMatches : MonoBehaviour
 
 
 
-    public void CheckBombs()
+    public void CheckBombs(MatchType matchType)
     {
         //did the player move a dot
         if(board.currentDot != null)
         {
             //is piece moved matched
-            if (board.currentDot.isMatched)
+            if (board.currentDot.isMatched && board.currentDot.tag == matchType.color)
             {
                 //make it unmatched so it does not get destroyed
                 board.currentDot.isMatched = false;
@@ -270,7 +272,7 @@ public class FindMatches : MonoBehaviour
             {
                 //is the other piece matched
                 Dots otherDot = board.currentDot.otherDot.GetComponent<Dots>();
-                if (otherDot.isMatched)
+                if (otherDot.isMatched && otherDot.tag == matchType.color)
                 {
                     //is the other dot matched and then make it unmatched
                     otherDot.isMatched = false;

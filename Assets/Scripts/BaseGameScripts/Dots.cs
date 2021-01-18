@@ -15,11 +15,15 @@ public class Dots : MonoBehaviour
 
     public GameObject otherDot;
     private TaftBoard board;
+    private Animator anim;
+    private SoundManager soundManager;
+    public float shineDelay;
+    private float shineDelaySeconds;
     private HintManager hintManager;
     private FindMatches findMatches;
     private EndGameManager endGameManager;
-    private Vector2 firstTouchPosition;
-    private Vector2 finalTouchPosition;
+    private Vector2 firstTouchPosition = Vector2.zero;
+    private Vector2 finalTouchPosition = Vector2.zero;
     private Vector2 tempPosition;
 
     [Header("Swipe Variables")]
@@ -40,33 +44,38 @@ public class Dots : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        board = FindObjectOfType<TaftBoard>();
+        //board = FindObjectOfType<TaftBoard>();
+        board = GameObject.FindWithTag("Board").GetComponent<TaftBoard>();
+        //possibly slightly faster searching / finding it with the tag.
+
+        anim = GetComponent<Animator>();
         findMatches = FindObjectOfType<FindMatches>();
         hintManager = FindObjectOfType<HintManager>();
         endGameManager = FindObjectOfType<EndGameManager>();
+        soundManager = FindObjectOfType<SoundManager>();
 
         isAdjacentBomb = false;
         isColumnBomb = false;        
         isColorBomb = false;
         isRowBomb = false;
+
+        shineDelay = Random.Range(3f, 6f);
+        shineDelaySeconds = shineDelay;
     }
 
-    //this is for testing and debug yo
-    private void OnMouseOver()
-    {
-        if (Input.GetMouseButtonDown(1))
-        {
-            isAdjacentBomb = true;
-            GameObject adjacentBombie = Instantiate(adjacentBomb, transform.position, Quaternion.identity);
-            adjacentBombie.transform.parent = this.transform;
-        }
-    }
-
+    
 
 
     // Update is called once per frame
     void Update()
-    {       
+    {
+        shineDelaySeconds -= Time.deltaTime;
+        if(shineDelaySeconds <= 0)
+        {
+            shineDelaySeconds = shineDelay;
+            StartCoroutine(StartShineCoroutine());
+        }
+
         targetX = column;
         targetY = row;
         MoveDotOnSwipeYo();
@@ -75,10 +84,15 @@ public class Dots : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if(anim != null)
+        {
+            anim.SetBool("Touched", true);
+        }
         if(hintManager != null)
         {
             hintManager.DestroyHint();
         }
+
         if(board.currentState == GameState.move)
         {
             firstTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -88,6 +102,8 @@ public class Dots : MonoBehaviour
 
     private void OnMouseUp()
     {
+        anim.SetBool("Touched", false);
+
         if (board.currentState == GameState.move)
         {
             finalTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -118,18 +134,26 @@ public class Dots : MonoBehaviour
         previousRow = row;
         previousColumn = column;
 
-        if(otherDot != null)
+        if(board.lockTiles[column, row] == null && board.lockTiles[column + (int)direction.x, row + (int)direction.y] == null)
         {
-            otherDot.GetComponent<Dots>().column += -1 * (int)direction.x;
-            otherDot.GetComponent<Dots>().row += -1 * (int)direction.y;
-            column += (int)direction.x;
-            row += (int)direction.y;
-            StartCoroutine(CheckMoveCoroutine());
+            if (otherDot != null)
+            {
+                otherDot.GetComponent<Dots>().column += -1 * (int)direction.x;
+                otherDot.GetComponent<Dots>().row += -1 * (int)direction.y;
+                column += (int)direction.x;
+                row += (int)direction.y;
+                StartCoroutine(CheckMoveCoroutine());
+            }
+            else
+            {
+                board.currentState = GameState.move;
+            }
         }
         else
         {
             board.currentState = GameState.move;
         }
+
     }
 
     private void MovePieces()
@@ -212,7 +236,8 @@ public class Dots : MonoBehaviour
             otherDot.GetComponent<Dots>().isMatched = true;
         }
 
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.5f);
+
         if(otherDot != null)
         {
             if (!isMatched && !otherDot.GetComponent<Dots>().isMatched)
@@ -224,6 +249,8 @@ public class Dots : MonoBehaviour
                 board.currentDot = null;
                 yield return new WaitForSeconds(0.4f);
                 board.currentState = GameState.move;
+                Debug.Log("Wrong Peice yo");
+                soundManager.PlayRandomErrorNoise();
             }
             else
             {
@@ -245,31 +272,43 @@ public class Dots : MonoBehaviour
 
     public void MakeRowBomb()
     {
-        isRowBomb = true;
-        GameObject arrow = Instantiate(rowBomb, transform.position, Quaternion.identity);
-        arrow.transform.parent = this.transform;
+        if(!isColumnBomb && !isRowBomb && !isColorBomb)
+        {
+            isRowBomb = true;
+            GameObject arrow = Instantiate(rowBomb, transform.position, Quaternion.identity);
+            arrow.transform.parent = this.transform;
+        }        
     }
 
     public void MakeColumnBomb()
     {
-        isColumnBomb = true;
-        GameObject arrow = Instantiate(columnBomb, transform.position, Quaternion.identity);
-        arrow.transform.parent = this.transform;
+        if (!isColumnBomb && !isRowBomb && !isColorBomb)
+        {
+            isColumnBomb = true;
+            GameObject arrow = Instantiate(columnBomb, transform.position, Quaternion.identity);
+            arrow.transform.parent = this.transform;
+        }            
     }
 
     public void MakeColorBomb()
     {
-        isColorBomb = true;
-        GameObject color = Instantiate(colorBomb, transform.position, Quaternion.identity);
-        color.transform.parent = this.transform;
-        this.gameObject.tag = "Color";
+        if (!isColumnBomb && !isRowBomb && !isColorBomb)
+        {
+            isColorBomb = true;
+            GameObject color = Instantiate(colorBomb, transform.position, Quaternion.identity);
+            color.transform.parent = this.transform;
+            this.gameObject.tag = "Color";
+        }            
     }
 
     public void MakeAdjacentBomb()
     {
-        isAdjacentBomb = true;
-        GameObject adjace = Instantiate(adjacentBomb, transform.position, Quaternion.identity);
-        adjace.transform.parent = this.transform;
+        if (!isColumnBomb && !isRowBomb && !isColorBomb)
+        {
+            isAdjacentBomb = true;
+            GameObject adjace = Instantiate(adjacentBomb, transform.position, Quaternion.identity);
+            adjace.transform.parent = this.transform;
+        }            
     }
 
     #endregion
@@ -287,8 +326,8 @@ public class Dots : MonoBehaviour
             if (board.allDots[column, row] != this.gameObject)
             {
                 board.allDots[column, row] = this.gameObject;
-            }
-            findMatches.FindAllMatches();
+                findMatches.FindAllMatches();
+            }            
         }
         else
         {
@@ -305,9 +344,8 @@ public class Dots : MonoBehaviour
             if (board.allDots[column, row] != this.gameObject)
             {
                 board.allDots[column, row] = this.gameObject;
-            }
-            findMatches.FindAllMatches();
-
+                findMatches.FindAllMatches();
+            }           
         }
         else
         {
@@ -317,6 +355,17 @@ public class Dots : MonoBehaviour
         }
     }
 
+    private IEnumerator StartShineCoroutine()
+    {
+        anim.SetBool("Shine", true);
+        yield return null;
+        anim.SetBool("Shine", false);
+    }
+
+    public void PopDeathAnimation()
+    {
+        anim.SetBool("Popped", true);
+    }
 
 
 }

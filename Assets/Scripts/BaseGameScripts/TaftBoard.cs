@@ -17,7 +17,17 @@ public enum TileKind
 {
     Blank,
     Breakable,
+    Lock,
+    Concrete,
+    Slime,
     Normal
+}
+
+[System.Serializable]
+public class MatchType
+{
+    public int type;
+    public string color;
 }
 
 [System.Serializable]
@@ -49,6 +59,8 @@ public class TaftBoard : MonoBehaviour
     public GameObject[] dots;
     public GameObject destroyFX;
     public GameObject breakablePrefab;
+    public GameObject lockTilePrefab;
+    public GameObject concreteTilePrefab;
     public int basePieceValue = 20;
     private int streakValue = 1;
     public int damageToTake;
@@ -57,6 +69,8 @@ public class TaftBoard : MonoBehaviour
     public TileType[] boardLayout;
     [SerializeField]
     private BackgroundTile[,] breakableTiles;
+    public BackgroundTile[,] lockTiles;
+    public BackgroundTile[,] concreteTiles;
     private bool[,] blankSpaces;
     public GameObject[,] allDots;
     public Dots currentDot;
@@ -64,6 +78,7 @@ public class TaftBoard : MonoBehaviour
 
     [Header("Matches Variables")]
     private FindMatches findMatches;
+    public MatchType matchType;
 
     [Header("Managers")]
     private ScoreManager scoreManager;
@@ -97,13 +112,17 @@ public class TaftBoard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        breakableTiles = new BackgroundTile[width, height];
-        blankSpaces = new bool[width, height]; // tells the board how big it is going to be, not filling it in but size
-        allDots = new GameObject[width, height];
         findMatches = FindObjectOfType<FindMatches>();
         scoreManager = FindObjectOfType<ScoreManager>();
         soundManager = FindObjectOfType<SoundManager>();
         goalManager = FindObjectOfType<GoalManager>();
+
+        breakableTiles = new BackgroundTile[width, height];
+        lockTiles = new BackgroundTile[width, height];
+        concreteTiles = new BackgroundTile[width, height];
+        blankSpaces = new bool[width, height]; // tells the board how big it is going to be, not filling it in but size
+        allDots = new GameObject[width, height];
+       
         SetUp();
         currentState = GameState.Pause;
     }
@@ -118,12 +137,14 @@ public class TaftBoard : MonoBehaviour
     {
         GenerateBlankSpaces();
         GenerateBreakableTiles();
+        GenerateLockTiles();
+        GenerateConcreteTiles();
 
         for(int i = 0; i < width; i++)
         {
             for(int j = 0; j < height; j++)
             {
-                if(!blankSpaces[i, j])
+                if(!blankSpaces[i, j] && !concreteTiles[i, j])
                 {
                     Vector2 tempPosition = new Vector2(i, j + offset);
                     Vector2 tilePosition = new Vector2(i, j);
@@ -204,112 +225,189 @@ public class TaftBoard : MonoBehaviour
 
     private void CheckToMakeBombs()
     {
-        if (findMatches.currentMatches.Count == 4 || findMatches.currentMatches.Count == 7)
+        //how many objects are in findMatches
+        if(findMatches.currentMatches.Count > 3)
         {
-            findMatches.CheckBombs();
-        }
-        if (findMatches.currentMatches.Count == 5 || findMatches.currentMatches.Count == 8)
-        {
-            if (ColumnOrRow())
+            //what type of match
+            MatchType typeOfMatch = ColumnOrRow();
+
+            if(typeOfMatch.type == 1)
             {
                 //make a color bomb
                 //is current dot matched
-                if (currentDot != null)
-                {
-                    if (currentDot.isMatched)
+                if (currentDot != null && currentDot.isMatched && currentDot.tag == typeOfMatch.color)
                     {
-                        if (!currentDot.isColorBomb)
-                        {
-                            currentDot.isMatched = false;
-                            currentDot.MakeColorBomb();
-                        }
+                        currentDot.isMatched = false;
+                        currentDot.MakeColorBomb();
                     }
                     else
                     {
                         if (currentDot.otherDot != null)
                         {
                             Dots otherDot = currentDot.otherDot.GetComponent<Dots>();
-                            if (otherDot.isMatched)
+                            if (otherDot.isMatched && otherDot.tag == typeOfMatch.color)
                             {
-                                if (!otherDot.isColorBomb)
-                                {
-                                    otherDot.isMatched = false;
-                                    otherDot.MakeColorBomb();
-                                }
+                                otherDot.isMatched = false;
+                                otherDot.MakeColorBomb();
                             }
                         }
                     }
-                }
+                
                 Debug.Log("Make a color bomb");
             }
-            else
+            else if (typeOfMatch.type == 2)
             {
                 //make an adjacent bomb
-                if (currentDot != null)
+                if (currentDot != null && currentDot.isMatched && currentDot.tag == typeOfMatch.color)
                 {
-                    if (currentDot.isMatched)
-                    {
-                        if (!currentDot.isAdjacentBomb)
-                        {
-                            currentDot.isMatched = false;
-                            currentDot.MakeAdjacentBomb();
-                        }
-                    }
-                    else
-                    {
-                        if (currentDot.otherDot != null)
+                    currentDot.isMatched = false;
+                    currentDot.MakeAdjacentBomb();
+                }
+                    else if (currentDot.otherDot != null)
                         {
                             Dots otherDot = currentDot.otherDot.GetComponent<Dots>();
-                            if (otherDot.isMatched)
+                            if (otherDot.isMatched && otherDot.tag == typeOfMatch.color)
                             {
-                                if (!otherDot.isColorBomb)
-                                {
-                                    otherDot.isMatched = false;
-                                    otherDot.MakeAdjacentBomb();
-                                }
+                                otherDot.isMatched = false;
+                                otherDot.MakeAdjacentBomb();
                             }
                         }
-                    }
+                    
                     Debug.Log("Make a adjacent bomb");
-                }
+                
             }
+            else if(typeOfMatch.type == 3)
+            {
+                findMatches.CheckBombs(typeOfMatch);
+            }
+        
+        
         }
+
     }
 
-    private bool ColumnOrRow()
-    {
-        int numberHorizontal = 0;
-        int numberVertical = 0;
+    private MatchType ColumnOrRow() // was Bool is now Int
+    {        
+        // make a copy of the current matches
+        List<GameObject> matchCopy = findMatches.currentMatches as List<GameObject>;
 
-        Dots firstPiece = findMatches.currentMatches[0].GetComponent<Dots>();
-        if(firstPiece != null)
+        matchType.type = 0;
+        matchType.color = "";
+
+        //cycle through all the match copy and decide if a bomb is needed
+        for (int i = 0; i < matchCopy.Count; i++)
         {
-            foreach (GameObject currentPiece in findMatches.currentMatches)
+            //store this dot
+            Dots thisDot = matchCopy[i].GetComponent<Dots>();
+            string color = matchCopy[i].tag;
+            int column = thisDot.column;
+            int row = thisDot.row;
+            int columnMatch = 0;
+            int rowMatch = 0;
+            //cycle throught he rest
+            for (int j = 0; j < matchCopy.Count; j++)
             {
-                Dots dot = currentPiece.GetComponent<Dots>();
-                if(dot.row == firstPiece.row)
+                //store the next dot
+                Dots nextDot = matchCopy[j].GetComponent<Dots>();
+                if(nextDot == thisDot)
                 {
-                    numberHorizontal++;
+                    continue;
                 }
-                if(dot.column == firstPiece.column)
+                if(nextDot.column == thisDot.column && nextDot.tag == color)
                 {
-                    numberVertical++;
+                    columnMatch++;
+                }
+                if (nextDot.row == thisDot.row && nextDot.tag == color)
+                {
+                    rowMatch++;
+                }
+            }
+            //return 3 if row or column match
+            //return 2 if adjacent
+            //return 1 if color bomb
+            if(columnMatch == 4 || rowMatch == 4)
+            {
+                matchType.type = 1;
+                matchType.color = color;
+                return matchType;
+            }
+            else if(columnMatch == 2 && rowMatch == 2)
+            {
+                matchType.type = 2;
+                matchType.color = color;
+                return matchType;
+            }
+            else if (columnMatch == 3 || rowMatch == 3)
+            {
+                matchType.type = 3;
+                matchType.color = color;
+                return matchType;
+            }
+
+        }
+
+        matchType.type = 0;
+        matchType.color = "";
+        return matchType;
+
+    }
+
+    private void DamageConcreteTiles(int column, int row)
+    {
+        if(column > 0)
+        {
+            if(concreteTiles[column - 1, row])
+            {
+                concreteTiles[column - 1, row].TakeDamage(1);
+
+                if(concreteTiles[column - 1, row].hitPoints <= 0)
+                {
+                    concreteTiles[column - 1 , row] = null;
                 }
             }
         }
-        return (numberVertical == 5 || numberHorizontal == 5);
-        
+        if (column < width - 1)
+        {
+            if (concreteTiles[column + 1, row])
+            {
+                concreteTiles[column + 1, row].TakeDamage(1);
+
+                if (concreteTiles[column + 1, row].hitPoints <= 0)
+                {
+                    concreteTiles[column + 1, row] = null;
+                }
+            }
+        }
+        if (row > 0)
+        {
+            if (concreteTiles[column, row - 1])
+            {
+                concreteTiles[column, row - 1].TakeDamage(1);
+
+                if (concreteTiles[column, row - 1].hitPoints <= 0)
+                {
+                    concreteTiles[column, row - 1] = null;
+                }
+            }
+        }
+        if (row < height - 1)
+        {
+            if (concreteTiles[column, row + 1])
+            {
+                concreteTiles[column, row + 1].TakeDamage(1);
+
+                if (concreteTiles[column, row + 1].hitPoints <= 0)
+                {
+                    concreteTiles[column, row + 1] = null;
+                }
+            }
+        }
     }
 
     private void DestroyMatchesAt(int column, int row)
     {
         if(allDots[column, row].GetComponent<Dots>().isMatched)
-        {
-            //how many elements are in the matched pieces list?
-            if(findMatches.currentMatches.Count >= 4)
-            {
-                CheckToMakeBombs();
-            }
+        {            
             //does a tile need to break or take damage
             if(breakableTiles[column, row] != null)
             {
@@ -320,7 +418,19 @@ public class TaftBoard : MonoBehaviour
                 }
             }
 
-            if(goalManager != null)
+            //does a tile need to break or take damage
+            if (lockTiles[column, row] != null)
+            {
+                lockTiles[column, row].TakeDamage(damageToTake);
+                if (lockTiles[column, row].hitPoints <= 0)
+                {
+                    lockTiles[column, row] = null;
+                }
+            }
+
+            DamageConcreteTiles(column, row);
+
+            if (goalManager != null)
             {
                 goalManager.CompareGoal(allDots[column, row].tag.ToString());
                 goalManager.UpdateGoalsText();
@@ -334,7 +444,8 @@ public class TaftBoard : MonoBehaviour
             }
 
             Destroy(particle, delayTime);
-            Destroy(allDots[column, row]);
+            allDots[column, row].GetComponent<Dots>().PopDeathAnimation();
+            Destroy(allDots[column, row], 0.5f);
             scoreManager.IncreaseScore(basePieceValue * streakValue);
             allDots[column, row] = null;
         }
@@ -342,7 +453,15 @@ public class TaftBoard : MonoBehaviour
 
     public  void DestroyMatches()
     {
-        for(int i = 0; i < width; i++)
+        //how many elements are in the matched pieces list?
+        if (findMatches.currentMatches.Count >= 4)
+        {
+            CheckToMakeBombs();
+        }
+
+        findMatches.currentMatches.Clear();
+
+        for (int i = 0; i < width; i++)
         {
             for(int j = 0; j < height; j ++)
             {
@@ -352,7 +471,7 @@ public class TaftBoard : MonoBehaviour
                 }
             }
         }
-        findMatches.currentMatches.Clear();
+        
         StartCoroutine(DecreaseRowWithNullsCoroutine());
     }
 
@@ -387,7 +506,7 @@ public class TaftBoard : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
-                if (allDots[i, j] == null && !blankSpaces[i, j])
+                if (allDots[i, j] == null && !blankSpaces[i, j] && !concreteTiles[i,j])
                 {
                     Vector2 tempPosition = new Vector2(i, j + offset);
                     int dotToUse = Random.Range(0, dots.Length);
@@ -414,6 +533,8 @@ public class TaftBoard : MonoBehaviour
 
     private bool MatchesOnBoard()
     {
+        findMatches.FindAllMatches();
+
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
@@ -434,24 +555,25 @@ public class TaftBoard : MonoBehaviour
 
     private IEnumerator FillBoardCoroutine()
     {
-        RefillBoard();
+        
         yield return new WaitForSeconds(refillDelay);
+
+        RefillBoard();
 
         while (MatchesOnBoard())
         {
-            streakValue ++;
-            yield return new WaitForSeconds(2 * refillDelay);
+            //yield return new WaitForSeconds(refillDelay);
+            streakValue++; 
             DestroyMatches();
-            yield return new WaitForSeconds(2 * refillDelay);
-        }
-        findMatches.currentMatches.Clear();
+            yield break;            
+        }        
         currentDot = null;
         yield return new WaitForSeconds(refillDelay);
 
         if (IsBoardDeadlocked())
         {
             Debug.Log("Deadlocked yo");
-            ShuffleBoard();
+            StartCoroutine(ShuffleBoard());
             Debug.Log("Board is shuffled yo");
         }
 
@@ -468,7 +590,7 @@ public class TaftBoard : MonoBehaviour
             for (int j = 0; j < height; j++)
             {
                 //if the current spot is not blank or empty.....
-                if(!blankSpaces[i, j] && allDots[i, j] == null)
+                if(!blankSpaces[i, j] && allDots[i, j] == null && !concreteTiles[i,j])
                 {
                     //loop from the space above to the top of column
                     for (int k = j + 1; k < height; k++)
@@ -518,15 +640,50 @@ public class TaftBoard : MonoBehaviour
         }
     }
 
+    private void GenerateLockTiles()
+    {
+        //look at all tiles in the layout
+        for (int i = 0; i < boardLayout.Length; i++)
+        {
+            //if tile is a LockTile
+            if (boardLayout[i].tileKind == TileKind.Lock)
+            {
+                //create the breakable
+                Vector2 tempPosition = new Vector2(boardLayout[i].x, boardLayout[i].y);
+                GameObject tile = Instantiate(lockTilePrefab, tempPosition, Quaternion.identity);
+                lockTiles[boardLayout[i].x, boardLayout[i].y] = tile.GetComponent<BackgroundTile>();
+            }
+        }
+    }
+
+    private void GenerateConcreteTiles()
+    {
+        //look at all tiles in the layout
+        for (int i = 0; i < boardLayout.Length; i++)
+        {
+            //if tile is a concreteTile
+            if (boardLayout[i].tileKind == TileKind.Concrete)
+            {
+                //create the breakable
+                Vector2 tempPosition = new Vector2(boardLayout[i].x, boardLayout[i].y);
+                GameObject tile = Instantiate(concreteTilePrefab, tempPosition, Quaternion.identity);
+                concreteTiles[boardLayout[i].x, boardLayout[i].y] = tile.GetComponent<BackgroundTile>();
+            }
+        }
+    }
 
     private void SwitchPieces(int column, int row, Vector2 direction)
     {
-        //take the first piece, save it in a holder
-        GameObject holder = allDots[column + (int)direction.x, row + (int)direction.y] as GameObject;
-        //switching first dot to be the 2nd position
-        allDots[column + (int)direction.x, row + (int)direction.y] = allDots[column, row];
-        //set the first dot to be the 2nd dot
-        allDots[column, row] = holder;
+        if(allDots[column + (int)direction.x, row + (int)direction.y] != null)
+        {
+            //take the first piece, save it in a holder
+            GameObject holder = allDots[column + (int)direction.x, row + (int)direction.y] as GameObject;
+            //switching first dot to be the 2nd position
+            allDots[column + (int)direction.x, row + (int)direction.y] = allDots[column, row];
+            //set the first dot to be the 2nd dot
+            allDots[column, row] = holder;
+        }
+       
     }
 
     private bool CheckTheBoardForMatches()
@@ -577,10 +734,10 @@ public class TaftBoard : MonoBehaviour
         if (CheckTheBoardForMatches())
         {
             SwitchPieces(column, row, direction);
-            return true;
+            return true;           
         }
         SwitchPieces(column, row, direction);
-        return false;
+        return false;        
     }
 
     private bool IsBoardDeadlocked()
@@ -611,8 +768,10 @@ public class TaftBoard : MonoBehaviour
         return true;
     }
 
-    private void ShuffleBoard()
+    private IEnumerator ShuffleBoard()
     {
+        yield return new WaitForSeconds(refillDelay);
+
         //create a list of dots on the board
         List<GameObject> newBoard = new List<GameObject>();
         //add all to the list
@@ -626,13 +785,15 @@ public class TaftBoard : MonoBehaviour
                 }
             }
         }
+
+        yield return new WaitForSeconds(refillDelay);
         //for every spot on the boar
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
             {
                 //if this spot should not be blank 
-                if (!blankSpaces[i,j])
+                if (!blankSpaces[i,j] && !concreteTiles[i,j])
                 {
                     //pick a random number
                     int piecesToUse = Random.Range(0, newBoard.Count);
@@ -661,8 +822,10 @@ public class TaftBoard : MonoBehaviour
         //check if it is deadlocked
         if (IsBoardDeadlocked())
         {
-            ShuffleBoard();
+            StartCoroutine(ShuffleBoard());
         }
     }
+
+    
 
 }

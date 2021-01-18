@@ -1,14 +1,13 @@
 ﻿<Properties StartupConfiguration="{1C986491-80FC-F4E5-D870-2E81446F9462}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/BaseGameScripts/ScoreManager.cs">
+  <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="Assets/Scripts/FadePanelController.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/ScriptableObjects/World.cs" Line="11" Column="27" />
       <File FileName="Assets/Scripts/ScriptableObjects/Level.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/UI/LevelButton.cs" Line="92" Column="15" />
-      <File FileName="Assets/Scripts/UI/ConfirmPanel.cs" Line="18" Column="31" />
-      <File FileName="Assets/Scripts/GameDataScripts/GameData.cs" Line="62" Column="6" />
-      <File FileName="Assets/Scripts/BackToSplashScreen.cs" Line="31" Column="29" />
-      <File FileName="Assets/Scripts/BaseGameScripts/ScoreManager.cs" Line="13" Column="1" />
+      <File FileName="Assets/Scripts/BaseGameScripts/TaftBoard.cs" Line="829" Column="5" />
+      <File FileName="Assets/Scripts/BaseGameScripts/Dots.cs" Line="155" Column="10" />
+      <File FileName="Assets/Scripts/BaseGameScripts/FindMatches.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/FadePanelController.cs" />
+      <File FileName="Assets/Scripts/BackToSplashScreen.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BaseGameScripts/SoundManager.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -17,7 +16,7 @@
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
                 <Node name="BaseGameScripts" expanded="True">
-                  <Node name="ScoreManager.cs" selected="True" />
+                  <Node name="TaftBoard.cs" selected="True" />
                 </Node>
                 <Node name="GameDataScripts" expanded="True" />
                 <Node name="ScriptableObjects" expanded="True" />
@@ -31,7 +30,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="3636874d-721f-4725-817c-fd3a4aa778c7" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="9d2f93b1-7915-42e7-8b46-440f207af790" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

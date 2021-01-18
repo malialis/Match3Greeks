@@ -14,18 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 6
   height: 7
-  boardLayout: []
+  boardLayout:
+  - x: 2
+    y: 2
+    tileKind: 3
+  - x: 3
+    y: 2
+    tileKind: 3
   dots:
-  - {fileID: 1836425604369276, guid: 7471f6d24260942c499dd3fbbeccadc6, type: 3}
-  - {fileID: 1282329895864240, guid: 16eff60049fa742e09c4e037182057a2, type: 3}
-  - {fileID: 1372902284518312, guid: ddd7ecb364d034ad295c2ea9c8df1999, type: 3}
-  - {fileID: 1161606897531048, guid: 805c5ac8742f1457bb6137a92eef3032, type: 3}
+  - {fileID: 2678737500004626393, guid: b751f1593232b4b0f80cd8dc670c26df, type: 3}
+  - {fileID: 5651688541300933197, guid: 5d0fbed27544a433fa9fc9e3400dd161, type: 3}
+  - {fileID: 5164573813880157944, guid: 053dff813e4dc4dff94333e350220d8d, type: 3}
+  - {fileID: 5651688541300933197, guid: 6db8cb5cd1d37481191824ac08ac608e, type: 3}
   scoreGoals: 640000002c010000
   endGameRequirements:
     gameType: 0
     counterValue: 44
   levelGoals:
   - numberNeeded: 6
-    numberCollected: 0
+    numberCollected: 6
     goalSprite: {fileID: 21300000, guid: 7ff35f8d699374d6ba04c547c3e46ab1, type: 3}
     matchValue: Round Green Dot
